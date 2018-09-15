@@ -1,0 +1,75 @@
+<!-- views/enter.ejs -->
+<!doctype html>
+<html>
+
+<head>
+
+
+    <%- include('partials/header.ejs'); %>
+
+</head>
+
+<body onload="addItems()">
+
+    <%- include('partials/navbar.ejs', {active: "Enter"}); %>
+    <div class="content">
+
+
+
+        <div class="container">
+
+            <h1>
+                <span class="fa fa-key"></span> Enter Keys</h1>
+
+                <% if (user != null) { %>
+
+            <!-- show success message -->
+            <% if (message.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= message %>
+                </div>
+                <% } %>
+
+                    <form action="/addkeys" method="post">
+                        <div class="form-group">
+                            <label for="ExchangeSelection">Select Exchange:</label>
+                            <select name="exchange" class="form-control" id="ExchangeSelection">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="text" class="form-control" name="key">
+                        </div>
+                        <div class="form-group">
+                            <label>Secret</label>
+                            <input type="password" class="form-control" name="secret">
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg">Save</button>
+                    </form>
+
+
+
+
+
+                    <script type="text/javascript">
+                        function addItems() {
+                            let exchangesList = document.getElementById('ExchangeSelection');
+                            <% exchangesArray.forEach(function(element) { %>
+                            var option = document.createElement("option");
+                            option.text = '<%= element %>';
+                            exchangesList.add(option);
+                            <% }); %>
+                        }
+                    </script>
+<%- include('partials/script.ejs'); %>
+                </div>
+
+                <% } else { %>
+  
+                    <h5>Login or Signup to enter keys<h5>
+                    
+                     <% } %> 
+
+</body>
+</div>

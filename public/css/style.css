@@ -1,0 +1,24 @@
+.content { padding-top: 50px}
+
+
+.hidetext { -webkit-text-security: disc; /* Default */ }
+
+.navbar-brand { 
+    padding-top: 10px;
+    
+}
+
+.exchanges-list { 
+    width:100%;
+    align-items:center;
+    display:flex;
+    flex-direction:column;
+    margin-bottom:1.875rem
+}
+
+/* resize images */
+.exchanges-list img {
+    width: 20%;
+    height: auto;
+    object-fit: cover;
+}

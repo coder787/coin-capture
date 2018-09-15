@@ -1,0 +1,79 @@
+<!-- views/deletecoins.ejs -->
+<!doctype html>
+<html>
+
+<head>
+
+
+    <%- include('partials/header.ejs'); %>
+
+</head>
+
+<body onload="addItems()">
+
+    <%- include('partials/navbar.ejs', {active: "DeleteCoins"}); %>
+    <div class="content">
+
+
+        <div class="container">
+
+            <h1>
+                <span class="fa fa-coins"></span> Delete Coins</h1>
+
+                <% if (user != null) { %>
+
+            <!-- show success message -->
+            <% if (message.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= message %>
+                </div>
+                <% } %>
+
+                <% if (userCoinsArray.length > 0) { %>
+
+                    <form action="/deletecoins" method="post">
+                        <div class="form-group">
+                            <label for="ExchangeSelection">Select Coin :</label>
+                            <select name="cointodelete" class="form-control" id="CoinSelection">
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg">Delete</button>
+                    </form>
+
+                   
+
+                        <% } else { %>
+                            
+                            <h5>No coins to delete</h5>
+
+                            <button type="submit" class="btn btn-warning btn-lg" onclick="location.href='/manual'">Enter Coins</button>
+                            
+                        <% } %>
+
+                        <script type="text/javascript">
+
+                        function addItems() {
+
+                            <% if (userCoinsArray != null) { %>
+                            let coinsList = document.getElementById('CoinSelection');
+                            <% userCoinsArray.forEach(function(element) { %>
+                            var option = document.createElement("option");
+                            option.text = '<%= element.coinsymbol %> (Quantity <%= element.quantity %>)';
+                            coinsList.add(option);
+                            <% }); %>
+                            <% } %>
+                        }
+
+                        
+                    </script>
+<%- include('partials/script.ejs'); %>
+                </div>
+
+                <% } else { %>
+  
+                    <h5>Login or Signup to delete coins<h5>
+                    
+                     <% } %> 
+</body>
+</div>

@@ -1,0 +1,134 @@
+<!-- views/captures.ejs -->
+<!doctype html>
+<html>
+
+<head>
+  <%- include('partials/header.ejs'); %>
+</head>
+
+<body onload="addItems();">
+
+  <%- include('partials/navbar.ejs', {active: "Captures"}); %>
+  <div class="content">
+
+    <div class="container">
+
+      <h1>
+        <span class="fa fa-camera"></span> View Captures</h1>
+
+        <% if (user != null) { %>
+          <% if (userCaptureArray != null) { %>
+
+      <form action="/viewcapture" method="post">
+        <div class="form-group">
+          <label for="CaptureSelection">Select Capture:</label>
+          <select name="capture" class="form-control" id="CaptureSelection">
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg">View</button>
+
+        <% } %>
+
+        <% if (selectedCaptureArray != null) { %>
+
+
+          <h5 align="center" class="display-5" id="total BTC" align="center">Balance =
+            <%= selectedCaptureArray[0]['details']['totalBTC']%>
+          </h5>
+          <h2 align="center" class="display-2" id="total USD" align="center">
+            <%= selectedCaptureArray[0]['details']['totaldollar']%>
+          </h2>
+          <h5 align="center" class="display-5" id="Date Time" align="center">
+            <%= selectedCaptureArray[0]['details']['date']%>
+          </h5>
+
+          <div class="portfolio">
+
+            <table align="center" id="portfolioTable" style="width:100%" class="table table-striped table-bordered table-hover table-condensed">
+              <thead>
+                <tr>
+                  <th>Exchange</th>
+                  <th>Currency</th>
+                  <th>Price</th>
+                  <th>Available</th>
+                  <th>
+                    <%= selectedCaptureArray[0]['details']['userCurrency'] %> Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <% selectedCaptureArray[0]['details']['portfolio'].forEach(function(element) { %>
+                    <td>
+                      <%= element['Exchange'] %>
+                    </td>
+                    <td>
+                        <object data="\cryptocurrency-icons\dist\32\color\<%= element['Currency'] %>.png" align="left" height="30" width="30" type="image/png">
+                            <img src="\cryptocurrency-icons\dist\32\color\generic.png" align="left" height="30" width="30" type="image/png" /></object>
+                            &nbsp;&nbsp;<%= element['Currency'] %>
+                    </td>
+                    <td>
+                      <%= element['Price'] %>
+                    </td>
+                    <td>
+                      <%= element['Available'] %>
+                    </td>
+                    <!-- <td>
+                      <%= element['CoinValue'] %>
+                    </td> -->
+                    <td>
+                      <%= element['DollarValue'] %>
+                    </td>
+                </tr>
+                <% }); %>
+                  </tr>
+              </tbody>
+            </table>
+
+
+
+          </div>
+
+
+          <% } %>
+
+
+            <script type="text/javascript">
+              function addItems() {
+                <% if (userCaptureArray != null) { %>
+                let captureList = document.getElementById('CaptureSelection');
+                <% userCaptureArray.forEach(function(element) { %>
+                var option = document.createElement("option");
+                option.text = '<%= element.details.name %>' + ' (<%= element.details.date %>)';
+                captureList.add(option);
+                
+                <% }); %>
+                <% } %>
+              }
+            </script>
+
+
+    </div>
+    <%- include('partials/script.ejs'); %>
+  </div>
+
+  <% } else { %>
+  
+    <h5>Login or Signup to view captures<h5>
+    
+     <% } %> 
+
+
+<script>
+  $(document).ready(function() {
+    $('#portfolioTable').DataTable( {
+        "order": [[ 3, "desc" ]]
+    } );
+} );
+
+
+
+
+          </script>
+
+</body>

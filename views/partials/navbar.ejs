@@ -1,0 +1,72 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+    <a class="navbar-brand" href="/"><h5><span class="fas fa-closed-captioning"></span> Coin Capture</h5></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/view">View Portfolio <span class="sr-only">(current)</span></a>
+          </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              API Keys
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/enter">Enter API Keys</a>
+              <a class="dropdown-item" href="/deletekeys">Delete API Keys</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Coins
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/manual">Enter Coins</a>
+              <a class="dropdown-item" href="/deletecoins">Delete Coins</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Captures
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/managecaptures">Manage Captures</a>
+              <a class="dropdown-item" href="/captures">View Captures</a>
+              <a class="dropdown-item" href="/compare">Compare Captures</a>
+              <a class="dropdown-item" href="/deletecaptures">Delete Captures</a>
+              <a class="dropdown-item" href="/charts">Chart Captures</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <% if (user != null) { %>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= user.local.email %>
+            </a>
+            
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/profile">Profile</a>
+              <a class="dropdown-item" href="/settings">Settings</a>
+              <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+          </li>
+          <% } %>
+          <% if (user == null) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup"><button type="button" class="btn btn-warning">Sign Up</button><span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login"><button type="button" class="btn btn-outline-secondary">Login</button><span class="sr-only">(current)</span></a>
+          </li>
+          <% } %>
+      </ul>
+    </div>
+    </div>
+  </nav>

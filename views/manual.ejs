@@ -1,0 +1,107 @@
+<!-- views/manual.ejs -->
+<!doctype html>
+<html>
+
+<head>
+
+
+    <%- include('partials/header.ejs'); %>
+
+</head>
+
+<body onload="addItems()">
+
+    <%- include('partials/navbar.ejs', {active: "Manual"}); %>
+    <div class="content">
+
+
+
+        <div class="container">
+
+            <h1>
+                <span class="fas fa-coins"></span> Enter Coins</h1>
+
+                <% if (user != null) { %>
+
+            <!-- show success message -->
+            <% if (message.length > 0) { %>
+                <div class="alert alert-danger">
+                    <%= message %>
+                </div>
+                <% } %>
+
+                    <form action="/addcoins" method="post">
+                        <div class="form-group">
+                            <label for="ExchangeSelection">Select Exchange:</label>
+                            <select name="exchange" class="form-control" id="ExchangeSelection" onchange="this.form.submit()">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Coin Name</label>
+                            <select name="coinsymbol" class="form-control" id="CoinSelection"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input class="form-control" name="quantity">
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg">Save</button>
+                    </form>
+
+                    <script type="text/javascript">
+                        
+                        function resetMenus() {
+
+                         
+
+                            <% if (selectedExchange != null) { %>
+
+                               console.log("selectedExchange is now ", '<%=selectedExchange%>');
+
+                                document.getElementById('ExchangeSelection').value = '<%=selectedExchange%>'; 
+                            <% } else { %>
+
+                                 document.getElementById('ExchangeSelection').value = '_1broker';
+                                 <% } %>
+
+                        }
+                        
+                        
+                        function addItems() {
+
+                            
+
+                            let exchangesList = document.getElementById('ExchangeSelection');
+                            <% exchangesArray.forEach(function(element) { %>
+                            var option = document.createElement("option");
+                            option.text = '<%= element %>';
+                            exchangesList.add(option);
+                            <% }); %>
+
+                        <% if (dupCoinarray != null) { %>
+                            let coinList = document.getElementById('CoinSelection');
+                            <% dupCoinarray.forEach(function(element) { %>
+                            var option = document.createElement("option");
+                            option.text = '<%= element %>';
+                            coinList.add(option);
+                            <% }); %>
+                                <% } %>
+
+
+                                resetMenus();
+
+                        }
+
+
+                    </script>
+<%- include('partials/script.ejs'); %>
+                </div>
+
+                <% } else { %>
+  
+                    <h5>Login or Signup to enter coins<h5>
+                    
+                     <% } %> 
+
+</body>
+</div>

@@ -1,0 +1,167 @@
+<!-- views/compare.ejs -->
+<!doctype html>
+<html>
+
+<head>
+    <%- include('partials/header.ejs'); %>
+</head>
+
+<body onload="addItems();">
+
+    <%- include('partials/navbar.ejs', {active: "Compare"}); %>
+        <div class="content">
+
+            <style>
+                .compareTable {
+                    padding-top: 40px;
+                }
+
+                .portfolio1 {
+                    float: left;
+                    margin: auto;
+                    padding-left: 400px;
+
+                }
+
+                .portfolio2 {
+                    float: left;
+                    margin: auto;
+                    padding-left: 65px;
+                }
+            </style>
+
+            <div class="container">
+
+                <h1>
+                    <span class="fa fa-camera"></span> Compare Captures</h1>
+
+                <% if (user != null) { %>
+
+                    <form action="/comparecapture" method="post">
+                        <div class="form-group">
+                            <label for="CaptureSelection">Select Capture 1:</label>
+                            <select name="capture1" class="form-control" id="CaptureSelection">
+                            </select>
+                            <label for="CaptureSelection2">Select Capture 2:</label>
+                            <select name="capture2" class="form-control" id="CaptureSelection2">
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg">Compare</button>
+            
+
+
+            <% if (compareArray != null) { %>
+
+
+                <div class="compareTable">
+
+                    <table align="center" id="compareTable" style="width:auto;" class="table table-striped table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Capture Names</th>
+                                <th scope="col">
+                                    <%= compareArray[0]['captureName']%>
+                                </th>
+                                <th scope="col">
+                                    <%= compareArray[1]['captureName']%>
+                                </th>
+                                <th>Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row">Number of coins</td>
+                                <td>
+                                    <%= compareArray[0]['CoinCount']%>
+                                </td>
+                                <td>
+                                    <%= compareArray[1]['CoinCount']%>
+                                </td>
+                                <td>
+                                    <%= compareArray[2]['CoinDifference']%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Date</td>
+                                <td>
+                                    <%= compareArray[0]['Date']%>
+                                </td>
+                                <td>
+                                    <%= compareArray[1]['Date']%>
+                                </td>
+                                <td>
+                                    <%= compareArray[2]['DateDifference']%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Total</td>
+                                <td>
+                                    <%= compareArray[0]['TotalDollar']%>
+                                </td>
+                                <td>
+                                    <%= compareArray[1]['TotalDollar']%>
+                                </td>
+                                <td>
+                                    <%= compareArray[2]['DollarDifference']%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <% inbothArray.forEach(function(element) { %>
+                                    <td>
+                                        <object data="\cryptocurrency-icons\dist\32\color\<%= element['Currency'] %>.png" align="left" height="30" width="30" type="image/png">
+                                            <img src="\cryptocurrency-icons\dist\32\color\generic.png" align="left" height="30" width="30" type="image/png" /></object>
+                                            &nbsp;&nbsp;<%= element['Currency'] %> [<%= element['Exchange']%>]
+                                        
+                                    </td>
+                                    <td>
+                                        <%= element['dollarvalue1'] %><p></p>(<%= element['price1'] %> )
+                                    </td>
+                                    <td>
+                                        <%= element['dollarvalue2'] %><p></p> (<%= element['price2'] %> )
+                                    </td>
+                                    <td>
+                                        <%= element['dollardifference'] %><p></p>(<%= element['difference'] %> )
+                                    </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+                <% } %>
+                
+                <script type="text/javascript">
+                    function addItems() {
+                        let captureList = document.getElementById('CaptureSelection');
+                        <% userCaptureArray.forEach(function(element) { %>
+                        var option = document.createElement("option");
+                        option.text = '<%= element.details.name %>' + ' (<%= element.details.date %>)';
+                        captureList.add(option);
+                        <% }); %>
+                        let captureList2 = document.getElementById('CaptureSelection2');
+                        <% userCaptureArray.forEach(function(element) { %>
+                        var option = document.createElement("option");
+                        option.text = '<%= element.details.name %>' + ' (<%= element.details.date %>)';
+                        captureList2.add(option);
+                        <% }); %>
+                    }
+                </script>
+                <%- include('partials/script.ejs'); %>
+
+                <div id="highchart" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+        </div>
+
+
+        <% } else { %>
+
+            <h5>Login or Signup to compare captures
+                <h5>
+
+                    <% } %>
+
+</body>
+
+</html>

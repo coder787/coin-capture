@@ -1,0 +1,73 @@
+<!-- views/deletekeys.ejs -->
+<!doctype html>
+<html>
+
+<head>
+
+
+    <%- include('partials/header.ejs'); %>
+
+</head>
+
+<body onload="addItems()">
+
+    <%- include('partials/navbar.ejs', {active: "DeleteKeys"}); %>
+    <div class="content">
+
+        <div class="container">
+
+            <h1>
+                <span class="fa fa-key"></span> Delete Keys</h1>
+
+                <% if (user != null) { %>
+
+            <!-- show success message -->
+            <% if (message.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= message %>
+                </div>
+                <% } %>
+
+                <% if (userKeysArray.length > 0) { %>
+
+                    <form action="/deletekeys" method="post">
+                        <div class="form-group">
+                            <label for="ExchangeSelection">Select Key :</label>
+                            <select name="keytodelete" class="form-control" id="KeySelection">
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg">Delete</button>
+                    </form>
+
+                    <script type="text/javascript">
+                        function addItems() {
+                            let keysList = document.getElementById('KeySelection');
+                            <% userKeysArray.forEach(function(element) { %>
+                            var option = document.createElement("option");
+                            option.text = '<%= element.details.exchange %> (<%= element.details.key %>)';
+                            keysList.add(option);
+                            <% }); %>
+                        }
+                    </script>
+<%- include('partials/script.ejs'); %>
+                </div>
+
+                <% } else { %>
+                    
+                    
+                    <h5>No keys to delete<h5>
+
+                            <button type="submit" class="btn btn-warning btn-lg" onclick="location.href='/enter'">Enter Keys</button>
+
+                        <% } %>
+
+
+                <% } else { %>
+  
+                    <h5>Login or Signup to delete keys<h5>
+                    
+                     <% } %> 
+
+</body>
+</div>
