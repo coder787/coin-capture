@@ -140,7 +140,7 @@ exports.Delete = function (req, res) {
 };
 
 // given a user id returns an array of keys for that user.
-exports.FindUserKeys = function(userID) {
+exports.FindUserKeys = function(userID, callback) {
 
     console.log("in find user keys function looking for userkey with userid: ", userID);
 
@@ -148,14 +148,16 @@ exports.FindUserKeys = function(userID) {
         'user.id': userID
     });
 
-    console.log("userKeyQuery to execute is now ", userKeyQuery);
+    //console.log("userKeyQuery to execute is now ", userKeyQuery);
 
     userKeyQuery.exec(function (err, userKeysArray) {
 
       //  if (err) return handleError(err);
       if (err) console.log(err);
         console.log("found current user keys array is now ", userKeysArray);
-    //    callback(userKeysArray);
+    callback(userKeysArray);
+
+    //return userKeysArray;
 
 })
 }

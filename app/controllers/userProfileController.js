@@ -29,11 +29,12 @@ exports.Show= function (req, res) {
 
             if (err) return handleError(err);
 
-        
-        
-
         console.log("FOUND userKeysArray of", userKeysArray);
         console.log("FOUND userCoinsArray of", userCoinsArray);
+          
+          console.log('user coins array length is now ', userCoinsArray.length);
+          
+          if (userCoinsArray.length > 0) {
 
         console.log("user coins length are  now", userCoinsArray[0]['coins'].length);
 
@@ -43,6 +44,13 @@ exports.Show= function (req, res) {
             userKeysArray: userKeysArray,
             userCoinsArray: userCoinsArray[0].coins
         });
+          } else {
+            res.render('profile.ejs', {
+            user: req.user, // get the user out of session and pass to template
+            userKeysArray: userKeysArray,
+            userCoinsArray: userCoinsArray
+        });
+          }
 
     })
 })

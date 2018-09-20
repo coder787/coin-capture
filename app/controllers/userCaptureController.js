@@ -20,10 +20,27 @@ const ccxt = require('ccxt');
 
 var async = require("async");
 
+// globals. bad idea
+
 var userPortfolioArray, totalDollar, totalBTC, BTCPrice, userCurrency
 
-// view users portfolio
-exports.Portfolio = function (req, res) {
+
+// reset global variables
+
+function resetGlobals() {
+
+    userPortfolioArray = [];
+    totalDollar = 0;
+    totalBTC = 0;
+    BTCPrice = 0;
+
+}
+
+exports.Portfolio = async function (req, res) {
+
+async function Portfolio(req, res) {
+
+    console.log("STARTING PORTFOLIO FUNCTION");
 
     // check if user logged in
 
@@ -36,34 +53,40 @@ exports.Portfolio = function (req, res) {
         })
     } else {
 
-        // get the users currency setting
-        UserSettings.findUserSettings(req.user._id, function (userSettingsObject) {
+        console.log("ABOUT TO GET USER SETTINGS");
+        // get the users settings
 
-            console.log("settings result object is now ", userSettingsObject);
+        const userresult = await UserSettings.findUserSettings(req.user._id, function (userSettingsObject) {
 
-            //if (err) return handleError(err);
-            //if (err) console.log(err);
-            console.log("SETTING usercurrency to ", userSettingsObject.settings.currency );
+            console.log("FOUND USER SETTINGS OF ", userSettingsObject);
 
-            userCurrency = userSettingsObject.settings.currency;
+            console.log("ABOUT TO GET USER CURRENCY");
+
+            // get the users currency setting
+            userCurrency = await UserSettings.findUserCurrency(userSettingsObject);
+
+            console.log("FOUND USER CURRENCY OF ", userCurrency);
 
         })
 
-        console.log("RESETTING TOTAL DOLLAR TO ZERO");
-        userPortfolioArray = [];
-        totalDollar = 0;
-        totalBTC = 0;
-        BTCPrice = 0;
+        console.log("RESETTING GLOBALS");
+        resetGlobals();
+
+        // find user keys
+
+        console.log("FINDING USER KEYS");
+
+        userKeysArray = UserKeys.FindUserKeys(req.user._id, function(userKeysArray) {
+
+            console.log("USER KEYS FOUND ARE: ", userKeysArray);
+
+        });
+
 
         // build query to find user keys array
         var userKeyQuery = UserKey.find({
             'user.id': req.user._id
-        }); 
-
-       // async.series
-        //userKeysArray = await UserKeys.FindUserKeys(req.user._id);
-
-       // console.log("user keys array is now ", userKeysArray);
+        });
 
         // build query to find user coins array
 
@@ -74,7 +97,7 @@ exports.Portfolio = function (req, res) {
         // execute the query then pass the results to be processed and rendered
         userKeyQuery.exec(function (err, userKeysArray) {
 
-            //console.log("user keys array is now ", userKeysArray);
+            console.log("user keys array is now ", userKeysArray);
 
             if (err) return handleError(err);
 
@@ -84,9 +107,24 @@ exports.Portfolio = function (req, res) {
 
                 if (err) return handleError(err);
 
-                const processcoins = processUserCoins(userCoinsArray);
+                console.log("ABOUT TO CALL PROCESS COINS ", userCoinsArray);
+
+                // const processcoins = processUserCoins(userCoinsArray);
+
+                //processcoins = processUserCoins(userCoinsArray, function(userPortfolioArray) {
+
+                async.each(userCoinsArray, processUserCoins, function (userCoinObject) {
+
+                    processcoins = processUserCoins(userCoinsArray, function (userPortfolioArray) {
+
+                    })
+
+                })
+                console.log("FINISHED PROCESS COINS ", userCoinsArray);
 
                 keysarraycount = userKeysArray.length;
+
+                console.log("USER KEYS LENGTH IS: ", keysarraycount);
 
                 async.each(userKeysArray, function (userKeyObject) {
 
@@ -100,17 +138,11 @@ exports.Portfolio = function (req, res) {
                         console.log("user portfolio now: ", userPortfolioArray);
                     })
 
-
-
                 })
 
             })
 
-
-
-      })
-
-
+        })
     }
 
 };
@@ -369,59 +401,81 @@ async function asyncForEach(array, callback) {
     }
 }
 
-async function processUserCoins(userCoinsArray) {
+// input a coin object and return the portfolio object
+
+async function processUserCoinObject(CoinObject, callback) {
+
+    console.log("STARTED COIN OBJECT PROCESSING OF COIN OBJECT: ", CoinObject);
+
+    let portfolioObject = {}
+
+    portfolioObject.Exchange = CoinObject.exchange;
+    portfolioObject.Currency = CoinObject.coinsymbol;
+    portfolioObject.Available = CoinObject.quantity;
+    portfolioObject.CoinValue = CoinObject.price;
+
+    btcresult = await btcValue.getConvertedValue(userCurrency).then(value => { //should be await
+
+        console.log("COIN DOLLAR VALUE CALC of COINVALUE: " + portfolioObject.CoinValue + " AND PRICE: " + value);
+
+        // integer dollar value
+        portfolioObject.PriceINT = portfolioObject.CoinValue * value;
+
+        // integer price value
+        portfolioObject.DollarValueINT = (portfolioObject.CoinValue * portfolioObject.Available) * value;
+
+        // get total price of coin in user currency
+        formattedDollar = currencyFormatter.format(portfolioObject.CoinValue * value, {
+            code: userCurrency
+        });
+
+        formattedUSDValue = currencyFormatter.format((portfolioObject.CoinValue * portfolioObject.Available) * value, {
+            code: userCurrency
+        });
+
+        portfolioObject.Price = formattedDollar;
+
+        portfolioObject.DollarValue = formattedUSDValue;
+
+        console.log("TOTAL DOLLAR ADDING " + portfolioObject.CoinValue + " value ");
+
+        totalDollar += portfolioObject.CoinValue * value;
+
+        callback(portfolioObject);
+
+
+    })
+
+
+
+}
+
+
+async function processUserCoins(userCoinsArray, callback) {
 
     console.log("STARTED COIN PROCESSING");
     // get objects from userCoinsArray
     CoinArray = userCoinsArray[0].coins
     console.log("GOT COIN ARRAY OF ", CoinArray);
-    portfolioObject = {}
+
 
     CoinArray.forEach(function (element) {
 
-        portfolioObject.Exchange = element.exchange;
-        portfolioObject.Currency = element.coinsymbol;
-        portfolioObject.Available = element.quantity;
-        portfolioObject.CoinValue = element.price;
+        portfolioObject = {}
 
-        btcresult = btcValue.getConvertedValue(userCurrency).then(value => { //should be await
+        portfolioObject = processUserCoinObject(element, function (portfolioObject) {
 
-            console.log("COIN DOLLAR VALUE CALC of COINVALUE: " + portfolioObject.CoinValue + " AND PRICE: " + value);
+            console.log("PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO: ", portfolioObject);
 
-            // integer dollar value
-            portfolioObject.PriceINT = portfolioObject.CoinValue * value;
+            userPortfolioArray.push(portfolioObject);
 
-            // integer price value
-            portfolioObject.DollarValueINT = (portfolioObject.CoinValue * portfolioObject.Available) * value;
-
-            // get total price of coin in user currency
-            formattedDollar = currencyFormatter.format(portfolioObject.CoinValue * value, {
-                code: userCurrency
-            });
-
-            formattedUSDValue = currencyFormatter.format((portfolioObject.CoinValue * portfolioObject.Available) * value, {
-                code: userCurrency
-            });
-
-            portfolioObject.Price = formattedDollar;
-
-            portfolioObject.DollarValue = formattedUSDValue;
-
-            console.log("TOTAL DOLLAR ADDING " + portfolioObject.CoinValue + " value ");
-
-            totalDollar += portfolioObject.CoinValue * value;
-
-
-        })
-
-
-        userPortfolioArray.push(portfolioObject);
-
-        console.log("user portfolio is now", userPortfolioArray);
-
+        });
 
     })
 
+    console.log("RETURNING COIN PORTFOLIO ARRAY OF:" , userPortfolioArray);
+
+    callback(userPortfolioArray);
 }
 
 
@@ -1075,7 +1129,7 @@ exports.autoCapturePortfolio = function () {
         // find users to capture now based on their auto capture settings
 
         // userSettingsAutoArrayCaptureNow = FindUsersToCapture(userSettingsAutoArray);  // not working
-console.log("USER settings auto array is now ", userSettingsAutoArray);
+        console.log("USER settings auto array is now ", userSettingsAutoArray);
 
         // for each user capture the portfolio
         userSettingsAutoArray.forEach(function (element) {
@@ -1094,9 +1148,9 @@ console.log("USER settings auto array is now ", userSettingsAutoArray);
             })
 
             // execute the query then pass the results to be processed
-           userKeyQuery.exec(function (err, userKeysArray) {
-              //  let userKeysArray = UserKeys.FindUserKeys(function(currentuserID) {;
-              if (err) return handleError(err);
+            userKeyQuery.exec(function (err, userKeysArray) {
+                //  let userKeysArray = UserKeys.FindUserKeys(function(currentuserID) {;
+                if (err) return handleError(err);
                 console.log("found userKeysArray is now ", userKeysArray);
 
                 userCoinQuery.exec(function (err, userCoinsArray) {
@@ -1208,26 +1262,26 @@ exports.Manage = function (req, res) {
         })
     } else {
 
-    // build query to find user captures array
-    var userCaptureQuery = UserCapture.find({
-        'user.id': req.user._id
-    });
-
-    // exec the query
-    userCaptureQuery.exec(function (err, allCaptureArray) {
-
-        if (err) return handleError(err);
-
-        console.log("all capture array is now ", allCaptureArray);
-
-
-        res.render('managecaptures.ejs', {
-            user: req.user,
-            moment: moment,
-            allCaptureArray: allCaptureArray
+        // build query to find user captures array
+        var userCaptureQuery = UserCapture.find({
+            'user.id': req.user._id
         });
-    })
-}
+
+        // exec the query
+        userCaptureQuery.exec(function (err, allCaptureArray) {
+
+            if (err) return handleError(err);
+
+            console.log("all capture array is now ", allCaptureArray);
+
+
+            res.render('managecaptures.ejs', {
+                user: req.user,
+                moment: moment,
+                allCaptureArray: allCaptureArray
+            });
+        })
+    }
 }
 
 
@@ -1356,7 +1410,7 @@ function getCapturenow(userNextCaptureArray) {
 }
 
 
-exports.Charts = function(req, res) {
+exports.Charts = function (req, res) {
 
     // check if user logged in
 
@@ -1371,31 +1425,33 @@ exports.Charts = function(req, res) {
 
 
 
-    // build query to find user captures array
-    var userCaptureQuery = UserCapture.find({
-        'user.id': req.user._id
-    });
-
-    // exec the query
-    userCaptureQuery.exec(function (err, allCaptureArray) {
-
-        if (err) return handleError(err);
-
-        console.log("all capture array is now ", allCaptureArray);
-
-        totalDollarArray = allCaptureArray.map(element => { 
-            
-            return currencyFormatter.unformat(element.details.totaldollar, {code: element.details.userCurrency});
+        // build query to find user captures array
+        var userCaptureQuery = UserCapture.find({
+            'user.id': req.user._id
         });
 
+        // exec the query
+        userCaptureQuery.exec(function (err, allCaptureArray) {
 
-        console.log("about to render with total dollar array: ", totalDollarArray);
+            if (err) return handleError(err);
 
-    res.render('charts.ejs', {
-        user: req.user,
-        totalDollarArray: totalDollarArray
-    })
-    })
+            console.log("all capture array is now ", allCaptureArray);
+
+            totalDollarArray = allCaptureArray.map(element => {
+
+                return currencyFormatter.unformat(element.details.totaldollar, {
+                    code: element.details.userCurrency
+                });
+            });
+
+
+            console.log("about to render with total dollar array: ", totalDollarArray);
+
+            res.render('charts.ejs', {
+                user: req.user,
+                totalDollarArray: totalDollarArray
+            })
+        })
 
     }
 }
