@@ -1,0 +1,860 @@
+this is where I auto capture
+(node:4044) DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
+user array with settings auto = yes are:  [ { _id: 5b4877358f5e461be0b9a5ca,
+    __v: 0,
+    settings: { interval: '30 mins', autocapture: 'Yes', currency: 'GBP' },
+    user: { id: '5b1b0dd824997e5f9801c7bc' } },
+  { _id: 5ba68f6900969821fcb8c0fd,
+    __v: 0,
+    settings: { autocapture: 'Yes', currency: 'GBP' },
+    user: { id: '5ba163f2a8c6e93f1cd01558' } } ]
+USER settings auto array is now  [ { _id: 5b4877358f5e461be0b9a5ca,
+    __v: 0,
+    settings: { interval: '30 mins', autocapture: 'Yes', currency: 'GBP' },
+    user: { id: '5b1b0dd824997e5f9801c7bc' } },
+  { _id: 5ba68f6900969821fcb8c0fd,
+    __v: 0,
+    settings: { autocapture: 'Yes', currency: 'GBP' },
+    user: { id: '5ba163f2a8c6e93f1cd01558' } } ]
+finding keys and coins for current user:  5b1b0dd824997e5f9801c7bc
+finding keys and coins for current user:  5ba163f2a8c6e93f1cd01558
+found userKeysArray is now  [ { _id: 5b20228ec8fb3c7bc03f6e61,
+    __v: 0,
+    details:
+     { added: 'Tue Jun 12 2018 20:44:14 GMT+0100 (GMT Daylight Time)',
+       secret: '960dad3bb885420681307eb02a23fe16',
+       key: '0744108e15a0482981706a38388ce8e4',
+       exchange: 'bittrex' },
+    user: { id: '5b1b0dd824997e5f9801c7bc' } },
+  { _id: 5b26c0b262554128d4ac171e,
+    __v: 0,
+    details:
+     { added: 'Sun Jun 17 2018 21:12:34 GMT+0100 (GMT Daylight Time)',
+       secret: 'fbIEm5nR5AmjSVLKjUi3YDVw6sB8Gj2j',
+       key: 'OIcEqDESfep8CngQ',
+       exchange: 'coinbase' },
+    user: { id: '5b1b0dd824997e5f9801c7bc' } },
+  { _id: 5b34c73c1c848a071cb92299,
+    __v: 0,
+    details:
+     { added: 'Thu Jun 28 2018 12:32:12 GMT+0100',
+       secret: 'e2f087c16047d5b322b0a5aeaf789179',
+       key: '6e7f0a24fb3a08814ffc4996968def6c',
+       exchange: 'hitbtc2' },
+    user: { id: '5b1b0dd824997e5f9801c7bc' } },
+  { _id: 5b3c98a98e64332870677749,
+    __v: 0,
+    details:
+     { added: 'Wed Jul 04 2018 10:51:37 GMT+0100',
+       secret: 'BD5UBbwxdkwOoKFc91fZ31FDJDpHy7dqxG2vP87Vv0c1cKzZ5M0ArUOTMaCEVwlg',
+       key: '1olUyosQPYCTuivDYJO6tlSkiUflXQcRtLFtwnRunxLyf4D3UAfu8zPjhXzV77uz',
+       exchange: 'binance' },
+    user: { id: '5b1b0dd824997e5f9801c7bc' } } ]
+found userKeysArray is now  []
+found current user coins array is now  [ { _id: 5b38bb5c8699304f6c439874,
+    coins: [],
+    __v: 0,
+    user: { id: '5b1b0dd824997e5f9801c7bc' } } ]
+STARTED COIN PROCESSING
+GOT COIN ARRAY OF  []
+RETURNING COIN PORTFOLIO ARRAY OF: []
+passing to process user keys exchange:  bittrex
+in big function with userKeyObject:  { _id: 5b20228ec8fb3c7bc03f6e61,
+  __v: 0,
+  details:
+   { added: 'Tue Jun 12 2018 20:44:14 GMT+0100 (GMT Daylight Time)',
+     secret: '960dad3bb885420681307eb02a23fe16',
+     key: '0744108e15a0482981706a38388ce8e4',
+     exchange: 'bittrex' },
+  user: { id: '5b1b0dd824997e5f9801c7bc' } }
+1st get positive account from exchange:  bittrex
+getting balance for exchange:  bittrex
+passing to process user keys exchange:  coinbase
+in big function with userKeyObject:  { _id: 5b26c0b262554128d4ac171e,
+  __v: 0,
+  details:
+   { added: 'Sun Jun 17 2018 21:12:34 GMT+0100 (GMT Daylight Time)',
+     secret: 'fbIEm5nR5AmjSVLKjUi3YDVw6sB8Gj2j',
+     key: 'OIcEqDESfep8CngQ',
+     exchange: 'coinbase' },
+  user: { id: '5b1b0dd824997e5f9801c7bc' } }
+1st get positive account from exchange:  coinbase
+getting balance for exchange:  coinbase
+passing to process user keys exchange:  hitbtc2
+in big function with userKeyObject:  { _id: 5b34c73c1c848a071cb92299,
+  __v: 0,
+  details:
+   { added: 'Thu Jun 28 2018 12:32:12 GMT+0100',
+     secret: 'e2f087c16047d5b322b0a5aeaf789179',
+     key: '6e7f0a24fb3a08814ffc4996968def6c',
+     exchange: 'hitbtc2' },
+  user: { id: '5b1b0dd824997e5f9801c7bc' } }
+1st get positive account from exchange:  hitbtc2
+getting balance for exchange:  hitbtc2
+passing to process user keys exchange:  binance
+in big function with userKeyObject:  { _id: 5b3c98a98e64332870677749,
+  __v: 0,
+  details:
+   { added: 'Wed Jul 04 2018 10:51:37 GMT+0100',
+     secret: 'BD5UBbwxdkwOoKFc91fZ31FDJDpHy7dqxG2vP87Vv0c1cKzZ5M0ArUOTMaCEVwlg',
+     key: '1olUyosQPYCTuivDYJO6tlSkiUflXQcRtLFtwnRunxLyf4D3UAfu8zPjhXzV77uz',
+     exchange: 'binance' },
+  user: { id: '5b1b0dd824997e5f9801c7bc' } }
+1st get positive account from exchange:  binance
+getting balance for exchange:  binance
+found current user coins array is now  [ { _id: 5ba16436a8c6e93f1cd01559,
+    coins:
+     [ [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object] ],
+    __v: 0,
+    user: { id: '5ba163f2a8c6e93f1cd01558' } } ]
+STARTED COIN PROCESSING
+GOT COIN ARRAY OF  [ { exchange: 'binance',
+    coinsymbol: 'ARK',
+    quantity: '777',
+    dateadded: 'Sat 22-09-18, 20:09:82',
+    price: 0.0001072 },
+  { exchange: 'bittrex',
+    coinsymbol: 'DMD',
+    quantity: '22',
+    dateadded: 'Sat 22-09-18, 21:09:82',
+    price: 0.00037518 },
+  { exchange: 'binance',
+    coinsymbol: 'LOOM',
+    quantity: '776',
+    dateadded: 'Sat 22-09-18, 21:09:80',
+    price: 0.00001333 },
+  { exchange: 'binance',
+    coinsymbol: 'SUB',
+    quantity: '785',
+    dateadded: 'Sat 22-09-18, 21:09:40',
+    price: 0.00001688 },
+  { exchange: 'binance',
+    coinsymbol: 'HOT',
+    quantity: '1632',
+    dateadded: 'Sat 22-09-18, 21:09:03',
+    price: 1.7e-7 },
+  { exchange: 'binance',
+    coinsymbol: 'ZRX',
+    quantity: '4322',
+    dateadded: 'Sat 22-09-18, 21:09:85',
+    price: 0.00009164 },
+  { exchange: 'gateio',
+    coinsymbol: 'XTZ',
+    quantity: '550',
+    dateadded: 'Sat 22-09-18, 21:09:30',
+    price: 0.00024727 },
+  { exchange: 'binance',
+    coinsymbol: 'MCO',
+    quantity: '456',
+    dateadded: 'Sat 22-09-18, 21:09:93',
+    price: 0.000665 },
+  { exchange: 'binance',
+    coinsymbol: 'IOTA',
+    quantity: '900',
+    dateadded: 'Sat 22-09-18, 22:09:03',
+    price: 0.00009025 } ]
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'ARK',
+  quantity: '777',
+  dateadded: 'Sat 22-09-18, 20:09:82',
+  price: 0.0001072 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'ARK',
+  quantity: '777',
+  dateadded: 'Sat 22-09-18, 20:09:82',
+  price: 0.0001072 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.0001072 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.0001072 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'ARK',
+  Available: '777',
+  CoinValue: 0.0001072,
+  PriceINT: 0.5494,
+  DollarValueINT: 426.8838,
+  Price: '£0.55',
+  DollarValue: '£426.88' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'ARK',
+  Available: '777',
+  CoinValue: 0.0001072,
+  PriceINT: 0.5494,
+  DollarValueINT: 426.8838,
+  Price: '£0.55',
+  DollarValue: '£426.88' }
+PROCESSING COIN OBJECT:  { exchange: 'bittrex',
+  coinsymbol: 'DMD',
+  quantity: '22',
+  dateadded: 'Sat 22-09-18, 21:09:82',
+  price: 0.00037518 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'bittrex',
+  coinsymbol: 'DMD',
+  quantity: '22',
+  dateadded: 'Sat 22-09-18, 21:09:82',
+  price: 0.00037518 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.00037518 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.00037518 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'bittrex',
+  Currency: 'DMD',
+  Available: '22',
+  CoinValue: 0.00037518,
+  PriceINT: 1.9227975000000002,
+  DollarValueINT: 42.301545000000004,
+  Price: '£1.92',
+  DollarValue: '£42.30' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'bittrex',
+  Currency: 'DMD',
+  Available: '22',
+  CoinValue: 0.00037518,
+  PriceINT: 1.9227975000000002,
+  DollarValueINT: 42.301545000000004,
+  Price: '£1.92',
+  DollarValue: '£42.30' }
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'LOOM',
+  quantity: '776',
+  dateadded: 'Sat 22-09-18, 21:09:80',
+  price: 0.00001333 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'LOOM',
+  quantity: '776',
+  dateadded: 'Sat 22-09-18, 21:09:80',
+  price: 0.00001333 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.00001333 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.00001333 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'LOOM',
+  Available: '776',
+  CoinValue: 0.00001333,
+  PriceINT: 0.06831625,
+  DollarValueINT: 53.01341,
+  Price: '£0.07',
+  DollarValue: '£53.01' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'LOOM',
+  Available: '776',
+  CoinValue: 0.00001333,
+  PriceINT: 0.06831625,
+  DollarValueINT: 53.01341,
+  Price: '£0.07',
+  DollarValue: '£53.01' }
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'SUB',
+  quantity: '785',
+  dateadded: 'Sat 22-09-18, 21:09:40',
+  price: 0.00001688 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'SUB',
+  quantity: '785',
+  dateadded: 'Sat 22-09-18, 21:09:40',
+  price: 0.00001688 }
+in positive accounts function
+returning positive account object for exchange: coinbase from fetch balance function:  { BCH: 0.12434785,
+  LTC: 1.05351715,
+  ETH: 0.21567157,
+  BTC: 0.01676342 }
+2nd process positive account with positive account:  { BCH: 0.12434785,
+  LTC: 1.05351715,
+  ETH: 0.21567157,
+  BTC: 0.01676342 }
+IN PROCESS BALANCE SETTING EXCHANGE TO coinbase
+about to fetch ticker for:  BCH/USD
+COIN DOLLAR VALUE CALC of COINVALUE: 0.00001688 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.00001688 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'SUB',
+  Available: '785',
+  CoinValue: 0.00001688,
+  PriceINT: 0.08651,
+  DollarValueINT: 67.91035,
+  Price: '£0.09',
+  DollarValue: '£67.91' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'SUB',
+  Available: '785',
+  CoinValue: 0.00001688,
+  PriceINT: 0.08651,
+  DollarValueINT: 67.91035,
+  Price: '£0.09',
+  DollarValue: '£67.91' }
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'HOT',
+  quantity: '1632',
+  dateadded: 'Sat 22-09-18, 21:09:03',
+  price: 1.7e-7 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'HOT',
+  quantity: '1632',
+  dateadded: 'Sat 22-09-18, 21:09:03',
+  price: 1.7e-7 }
+COIN DOLLAR VALUE CALC of COINVALUE: 1.7e-7 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 1.7e-7 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'HOT',
+  Available: '1632',
+  CoinValue: 1.7e-7,
+  PriceINT: 0.00087125,
+  DollarValueINT: 1.42188,
+  Price: '£0.00',
+  DollarValue: '£1.42' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'HOT',
+  Available: '1632',
+  CoinValue: 1.7e-7,
+  PriceINT: 0.00087125,
+  DollarValueINT: 1.42188,
+  Price: '£0.00',
+  DollarValue: '£1.42' }
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'ZRX',
+  quantity: '4322',
+  dateadded: 'Sat 22-09-18, 21:09:85',
+  price: 0.00009164 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'ZRX',
+  quantity: '4322',
+  dateadded: 'Sat 22-09-18, 21:09:85',
+  price: 0.00009164 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.00009164 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.00009164 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'ZRX',
+  Available: '4322',
+  CoinValue: 0.00009164,
+  PriceINT: 0.469655,
+  DollarValueINT: 2029.84891,
+  Price: '£0.47',
+  DollarValue: '£2,029.85' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'ZRX',
+  Available: '4322',
+  CoinValue: 0.00009164,
+  PriceINT: 0.469655,
+  DollarValueINT: 2029.84891,
+  Price: '£0.47',
+  DollarValue: '£2,029.85' }
+PROCESSING COIN OBJECT:  { exchange: 'gateio',
+  coinsymbol: 'XTZ',
+  quantity: '550',
+  dateadded: 'Sat 22-09-18, 21:09:30',
+  price: 0.00024727 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'gateio',
+  coinsymbol: 'XTZ',
+  quantity: '550',
+  dateadded: 'Sat 22-09-18, 21:09:30',
+  price: 0.00024727 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.00024727 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.00024727 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'gateio',
+  Currency: 'XTZ',
+  Available: '550',
+  CoinValue: 0.00024727,
+  PriceINT: 1.26725875,
+  DollarValueINT: 696.9923125,
+  Price: '£1.27',
+  DollarValue: '£696.99' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'gateio',
+  Currency: 'XTZ',
+  Available: '550',
+  CoinValue: 0.00024727,
+  PriceINT: 1.26725875,
+  DollarValueINT: 696.9923125,
+  Price: '£1.27',
+  DollarValue: '£696.99' }
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'MCO',
+  quantity: '456',
+  dateadded: 'Sat 22-09-18, 21:09:93',
+  price: 0.000665 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'MCO',
+  quantity: '456',
+  dateadded: 'Sat 22-09-18, 21:09:93',
+  price: 0.000665 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.000665 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.000665 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'MCO',
+  Available: '456',
+  CoinValue: 0.000665,
+  PriceINT: 3.408125,
+  DollarValueINT: 1554.105,
+  Price: '£3.41',
+  DollarValue: '£1,554.11' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'MCO',
+  Available: '456',
+  CoinValue: 0.000665,
+  PriceINT: 3.408125,
+  DollarValueINT: 1554.105,
+  Price: '£3.41',
+  DollarValue: '£1,554.11' }
+PROCESSING COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'IOTA',
+  quantity: '900',
+  dateadded: 'Sat 22-09-18, 22:09:03',
+  price: 0.00009025 }
+STARTED COIN OBJECT PROCESSING OF COIN OBJECT:  { exchange: 'binance',
+  coinsymbol: 'IOTA',
+  quantity: '900',
+  dateadded: 'Sat 22-09-18, 22:09:03',
+  price: 0.00009025 }
+COIN DOLLAR VALUE CALC of COINVALUE: 0.00009025 AND PRICE: 5125
+TOTAL DOLLAR ADDING COIN VALUE: 0.00009025 TIMES: 5125
+RETURNING PORTOFOLIO OBJECT OF:  { Exchange: 'binance',
+  Currency: 'IOTA',
+  Available: '900',
+  CoinValue: 0.00009025,
+  PriceINT: 0.46253125,
+  DollarValueINT: 416.27812499999993,
+  Price: '£0.46',
+  DollarValue: '£416.28' }
+PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO:  { Exchange: 'binance',
+  Currency: 'IOTA',
+  Available: '900',
+  CoinValue: 0.00009025,
+  PriceINT: 0.46253125,
+  DollarValueINT: 416.27812499999993,
+  Price: '£0.46',
+  DollarValue: '£416.28' }
+RETURNING COIN PORTFOLIO ARRAY OF: [ { Exchange: 'binance',
+    Currency: 'ARK',
+    Available: '777',
+    CoinValue: 0.0001072,
+    PriceINT: 0.5494,
+    DollarValueINT: 426.8838,
+    Price: '£0.55',
+    DollarValue: '£426.88' },
+  { Exchange: 'bittrex',
+    Currency: 'DMD',
+    Available: '22',
+    CoinValue: 0.00037518,
+    PriceINT: 1.9227975000000002,
+    DollarValueINT: 42.301545000000004,
+    Price: '£1.92',
+    DollarValue: '£42.30' },
+  { Exchange: 'binance',
+    Currency: 'LOOM',
+    Available: '776',
+    CoinValue: 0.00001333,
+    PriceINT: 0.06831625,
+    DollarValueINT: 53.01341,
+    Price: '£0.07',
+    DollarValue: '£53.01' },
+  { Exchange: 'binance',
+    Currency: 'SUB',
+    Available: '785',
+    CoinValue: 0.00001688,
+    PriceINT: 0.08651,
+    DollarValueINT: 67.91035,
+    Price: '£0.09',
+    DollarValue: '£67.91' },
+  { Exchange: 'binance',
+    Currency: 'HOT',
+    Available: '1632',
+    CoinValue: 1.7e-7,
+    PriceINT: 0.00087125,
+    DollarValueINT: 1.42188,
+    Price: '£0.00',
+    DollarValue: '£1.42' },
+  { Exchange: 'binance',
+    Currency: 'ZRX',
+    Available: '4322',
+    CoinValue: 0.00009164,
+    PriceINT: 0.469655,
+    DollarValueINT: 2029.84891,
+    Price: '£0.47',
+    DollarValue: '£2,029.85' },
+  { Exchange: 'gateio',
+    Currency: 'XTZ',
+    Available: '550',
+    CoinValue: 0.00024727,
+    PriceINT: 1.26725875,
+    DollarValueINT: 696.9923125,
+    Price: '£1.27',
+    DollarValue: '£696.99' },
+  { Exchange: 'binance',
+    Currency: 'MCO',
+    Available: '456',
+    CoinValue: 0.000665,
+    PriceINT: 3.408125,
+    DollarValueINT: 1554.105,
+    Price: '£3.41',
+    DollarValue: '£1,554.11' },
+  { Exchange: 'binance',
+    Currency: 'IOTA',
+    Available: '900',
+    CoinValue: 0.00009025,
+    PriceINT: 0.46253125,
+    DollarValueINT: 416.27812499999993,
+    Price: '£0.46',
+    DollarValue: '£416.28' } ]
+in positive accounts function
+returning positive account object for exchange: binance from fetch balance function:  { BTC: 1.36377628,
+  BNB: 68.97749969,
+  EOS: 756.86123471,
+  EON: 756.86123471,
+  ADD: 378.43061736,
+  MEETONE: 378.43061736,
+  ATD: 756.86123471,
+  EOP: 756.86123471,
+  IQ: 3859.99229702 }
+2nd process positive account with positive account:  { BTC: 1.36377628,
+  BNB: 68.97749969,
+  EOS: 756.86123471,
+  EON: 756.86123471,
+  ADD: 378.43061736,
+  MEETONE: 378.43061736,
+  ATD: 756.86123471,
+  EOP: 756.86123471,
+  IQ: 3859.99229702 }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+UPDATING TOTAL BTC WITH:  1.36377628
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 1.36377628 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 1.36377628 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'BTC',
+  Available: 1.36377628,
+  CoinValue: 1.36377628,
+  Price: '£5,125.00',
+  PriceInt: 5125,
+  DollarValueInt: 6989.353435,
+  DollarValue: '£6,989.35' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  BNB/BTC
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.009079805769477612
+UPDATING TOTAL BTC WITH:  0.009079805769477612
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.009079805769477612 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.009079805769477612 value 5125
+3rd push result object using current exchange: coinbase
+PUSHING RESULT OBJECT:  { Exchange: 'coinbase',
+  Currency: 'BCH',
+  Available: 0.12434785,
+  Price: '£374.22',
+  CoinValue: 0.009079805769477612,
+  PriceInt: 374.2244402985075,
+  DollarValueInt: 46.53400456857276,
+  DollarValue: '£46.53' }
+IN PROCESS BALANCE SETTING EXCHANGE TO coinbase
+about to fetch ticker for:  LTC/USD
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.10507342527777701
+UPDATING TOTAL BTC WITH:  0.10507342527777701
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.10507342527777701 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.10507342527777701 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'BNB',
+  Available: 68.97749969,
+  Price: '£7.81',
+  CoinValue: 0.10507342527777701,
+  PriceInt: 7.8069125,
+  DollarValueInt: 538.5013045486072,
+  DollarValue: '£538.50' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  EOS/BTC
+calling getconverted value with currency code of USD
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.009539833655298507
+UPDATING TOTAL BTC WITH:  0.009539833655298507
+calling getconverted value with currency code of  GBP
+SETTING COIN VALUE OF  0.66982219271835
+UPDATING TOTAL BTC WITH:  0.66982219271835
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.009539833655298507 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.009539833655298507 value 5125
+3rd push result object using current exchange: coinbase
+PUSHING RESULT OBJECT:  { Exchange: 'coinbase',
+  Currency: 'LTC',
+  Available: 1.05351715,
+  Price: '£46.41',
+  CoinValue: 0.009539833655298507,
+  PriceInt: 46.4080223880597,
+  DollarValueInt: 48.89164748340485,
+  DollarValue: '£48.89' }
+IN PROCESS BALANCE SETTING EXCHANGE TO coinbase
+about to fetch ticker for:  ETH/USD
+DOLLAR VALUE CALC of COINVALUE: 0.66982219271835 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.66982219271835 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'EOS',
+  Available: 756.86123471,
+  Price: '£4.54',
+  CoinValue: 0.66982219271835,
+  PriceInt: 4.5356250000000005,
+  DollarValueInt: 3432.8387376815435,
+  DollarValue: '£3,432.84' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  EON/BTC
+in positive accounts function
+returning positive account object for exchange: hitbtc2 from fetch balance function:  { XMR: 16.91821191 }
+2nd process positive account with positive account:  { XMR: 16.91821191 }
+IN PROCESS BALANCE SETTING EXCHANGE TO hitbtc2
+about to fetch ticker for:  XMR/BTC
+in positive accounts function
+returning positive account object for exchange: bittrex from fetch balance function:  { ADA: 18707.80195049,
+  BTC: 3.14898288,
+  ETH: 8.35725684,
+  LTC: 74.48336266,
+  XRP: 6946.95321346 }
+2nd process positive account with positive account:  { ADA: 18707.80195049,
+  BTC: 3.14898288,
+  ETH: 8.35725684,
+  LTC: 74.48336266,
+  XRP: 6946.95321346 }
+IN PROCESS BALANCE SETTING EXCHANGE TO bittrex
+about to fetch ticker for:  ADA/BTC
+1537653903864 'ExchangeError' 'binance does not have market symbol EON/BTC'
+UPDATING TOTAL BTC WITH:  0
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'EON',
+  Available: 756.86123471,
+  CoinValue: 0,
+  PriceInt: NaN,
+  DollarValueInt: 0,
+  Price: '£0.00',
+  DollarValue: '£0.00' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  ADD/BTC
+1537653904255 'ExchangeError' 'binance does not have market symbol ADD/BTC'
+UPDATING TOTAL BTC WITH:  0
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'ADD',
+  Available: 378.43061736,
+  CoinValue: 0,
+  PriceInt: NaN,
+  DollarValueInt: 0,
+  Price: '£0.00',
+  DollarValue: '£0.00' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  MEETONE/BTC
+calling getconverted value with currency code of USD
+1537653904728 'ExchangeError' 'binance does not have market symbol MEETONE/BTC'
+UPDATING TOTAL BTC WITH:  0
+calling getconverted value with currency code of  GBP
+SETTING COIN VALUE OF  0.007765786009328358
+UPDATING TOTAL BTC WITH:  0.007765786009328358
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'MEETONE',
+  Available: 378.43061736,
+  CoinValue: 0,
+  PriceInt: NaN,
+  DollarValueInt: 0,
+  Price: '£0.00',
+  DollarValue: '£0.00' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  ATD/BTC
+DOLLAR VALUE CALC of COINVALUE: 0.007765786009328358 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.007765786009328358 value 5125
+3rd push result object using current exchange: coinbase
+PUSHING RESULT OBJECT:  { Exchange: 'coinbase',
+  Currency: 'ETH',
+  Available: 0.21567157,
+  Price: '£184.54',
+  CoinValue: 0.007765786009328358,
+  PriceInt: 184.5382462686567,
+  DollarValueInt: 39.799653297807836,
+  DollarValue: '£39.80' }
+IN PROCESS BALANCE SETTING EXCHANGE TO coinbase
+UPDATING TOTAL BTC WITH:  0.01676342
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.01676342 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.01676342 value 5125
+3rd push result object using current exchange: coinbase
+PUSHING RESULT OBJECT:  { Exchange: 'coinbase',
+  Currency: 'BTC',
+  Available: 0.01676342,
+  CoinValue: 0.01676342,
+  Price: '£5,125.00',
+  PriceInt: 5125,
+  DollarValueInt: 85.91252750000001,
+  DollarValue: '£85.91' }
+comparing counter: 1 and keysarraycount 0
+1537653905087 'ExchangeError' 'binance does not have market symbol ATD/BTC'
+UPDATING TOTAL BTC WITH:  0
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'ATD',
+  Available: 756.86123471,
+  CoinValue: 0,
+  PriceInt: NaN,
+  DollarValueInt: 0,
+  Price: '£0.00',
+  DollarValue: '£0.00' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  EOP/BTC
+1537653905506 'ExchangeError' 'binance does not have market symbol EOP/BTC'
+UPDATING TOTAL BTC WITH:  0
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'EOP',
+  Available: 756.86123471,
+  CoinValue: 0,
+  PriceInt: NaN,
+  DollarValueInt: 0,
+  Price: '£0.00',
+  DollarValue: '£0.00' }
+IN PROCESS BALANCE SETTING EXCHANGE TO binance
+about to fetch ticker for:  IQ/BTC
+1537653905936 'ExchangeError' 'binance does not have market symbol IQ/BTC'
+UPDATING TOTAL BTC WITH:  0
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0 value 5125
+3rd push result object using current exchange: binance
+PUSHING RESULT OBJECT:  { Exchange: 'binance',
+  Currency: 'IQ',
+  Available: 3859.99229702,
+  CoinValue: 0,
+  PriceInt: NaN,
+  DollarValueInt: 0,
+  Price: '£0.00',
+  DollarValue: '£0.00' }
+comparing counter: 2 and keysarraycount 0
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.30867277629795004
+UPDATING TOTAL BTC WITH:  0.30867277629795004
+calling getconverted value with currency code of  GBP
+calling getconverted value with currency code of USD
+DOLLAR VALUE CALC of COINVALUE: 0.30867277629795004 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.30867277629795004 value 5125
+3rd push result object using current exchange: hitbtc2
+PUSHING RESULT OBJECT:  { Exchange: 'hitbtc2',
+  Currency: 'XMR',
+  Available: 16.91821191,
+  Price: '£93.51',
+  CoinValue: 0.30867277629795004,
+  PriceInt: 93.50562500000001,
+  DollarValueInt: 1581.947978526994,
+  DollarValue: '£1,581.95' }
+comparing counter: 3 and keysarraycount 0
+SETTING COIN VALUE OF  0.2334733683421152
+UPDATING TOTAL BTC WITH:  0.2334733683421152
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.2334733683421152 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.2334733683421152 value 5125
+3rd push result object using current exchange: bittrex
+PUSHING RESULT OBJECT:  { Exchange: 'bittrex',
+  Currency: 'ADA',
+  Available: 18707.80195049,
+  Price: '£0.06',
+  CoinValue: 0.2334733683421152,
+  PriceInt: 0.06396,
+  DollarValueInt: 1196.5510127533405,
+  DollarValue: '£1,196.55' }
+IN PROCESS BALANCE SETTING EXCHANGE TO bittrex
+UPDATING TOTAL BTC WITH:  3.14898288
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 3.14898288 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 3.14898288 value 5125
+3rd push result object using current exchange: bittrex
+PUSHING RESULT OBJECT:  { Exchange: 'bittrex',
+  Currency: 'BTC',
+  Available: 3.14898288,
+  CoinValue: 3.14898288,
+  Price: '£5,125.00',
+  PriceInt: 5125,
+  DollarValueInt: 16138.537260000001,
+  DollarValue: '£16,138.54' }
+IN PROCESS BALANCE SETTING EXCHANGE TO bittrex
+about to fetch ticker for:  ETH/BTC
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.2988691269270492
+UPDATING TOTAL BTC WITH:  0.2988691269270492
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.2988691269270492 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.2988691269270492 value 5125
+3rd push result object using current exchange: bittrex
+PUSHING RESULT OBJECT:  { Exchange: 'bittrex',
+  Currency: 'ETH',
+  Available: 8.35725684,
+  Price: '£183.28',
+  CoinValue: 0.2988691269270492,
+  PriceInt: 183.27835375,
+  DollarValueInt: 1531.704275501127,
+  DollarValue: '£1,531.70' }
+IN PROCESS BALANCE SETTING EXCHANGE TO bittrex
+about to fetch ticker for:  LTC/BTC
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.67005233048936
+UPDATING TOTAL BTC WITH:  0.67005233048936
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.67005233048936 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.67005233048936 value 5125
+3rd push result object using current exchange: bittrex
+PUSHING RESULT OBJECT:  { Exchange: 'bittrex',
+  Currency: 'LTC',
+  Available: 74.48336266,
+  Price: '£46.10',
+  CoinValue: 0.67005233048936,
+  PriceInt: 46.1045,
+  DollarValueInt: 3434.01819375797,
+  DollarValue: '£3,434.02' }
+IN PROCESS BALANCE SETTING EXCHANGE TO bittrex
+about to fetch ticker for:  XRP/BTC
+calling getconverted value with currency code of USD
+SETTING COIN VALUE OF  0.5793064284704295
+UPDATING TOTAL BTC WITH:  0.5793064284704295
+calling getconverted value with currency code of  GBP
+DOLLAR VALUE CALC of COINVALUE: 0.5793064284704295 AND PRICE: 5125
+USER CURRENCY IS NOW  GBP
+TOTAL DOLLAR ADDING 0.5793064284704295 value 5125
+3rd push result object using current exchange: bittrex
+PUSHING RESULT OBJECT:  { Exchange: 'bittrex',
+  Currency: 'XRP',
+  Available: 6946.95321346,
+  Price: '£0.43',
+  CoinValue: 0.5793064284704295,
+  PriceInt: 0.42737375,
+  DollarValueInt: 2968.945445910951,
+  DollarValue: '£2,968.95' }
+comparing counter: 4 and keysarraycount 0

@@ -116,12 +116,12 @@ exports.Process = function (req, res) {
                 // user coins object to push into array
                 newuserCoinsObject = {};
 
-                var datenow = moment();
+                var datenow = moment().format("ddd DD-MM-YY, HH:mm:ss");
 
                 newuserCoinsObject.exchange = req.body.exchange;
                 newuserCoinsObject.coinsymbol = req.body.coinsymbol;
                 newuserCoinsObject.quantity = req.body.quantity;
-                newuserCoinsObject.dateadded = datenow; // not working TO-DO fix format
+                newuserCoinsObject.dateadded = datenow;
 
                 // find current price of coin based on exchange and coin
 
@@ -161,7 +161,7 @@ exports.Process = function (req, res) {
                 // build new object to add
                 newuserCoinsObject = {};
 
-                var datenow = moment();
+                var datenow = moment().format("ddd DD-MM-YY, HH:MM:SS");
 
                 newuserCoinsObject.exchange = req.body.exchange;
                 newuserCoinsObject.coinsymbol = req.body.coinsymbol;

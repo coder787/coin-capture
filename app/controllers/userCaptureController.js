@@ -16,11 +16,13 @@ var uniqid = require('uniqid');
 // A lightweight JavaScript date library for parsing, validating, manipulating, and formatting dates.
 var moment = require('moment');
 
+// A JavaScript / Python / PHP cryptocurrency trading library with support for more than 100 bitcoin/altcoin exchanges
 const ccxt = require('ccxt');
 
+// provides straight-forward, powerful functions for working with asynchronous JavaScript. 
 var async = require("async");
 
-// globals. bad idea
+// globals. bad idea. TO-DO : Get rid of these
 
 var userPortfolioArray, totalDollar, totalBTC, BTCPrice, userCurrency
 
@@ -341,6 +343,8 @@ async function processBalance(currentKey, currentSecret, currentExchange, positi
             resultObject.Price = 1; // price is 1 for bitcoin, so coin price gets calculated as 1 * btc price below
         }
 
+        console.log("UPDATING TOTAL BTC WITH: ", resultObject.CoinValue);
+
         totalBTC += resultObject.CoinValue;
 
         console.log("calling getconverted value with currency code of ", userCurrency);
@@ -437,9 +441,11 @@ async function processUserCoinObject(CoinObject, callback) {
 
         console.log("TOTAL DOLLAR ADDING COIN VALUE: " + portfolioObject.CoinValue + " TIMES: " + value);
 
-        //totalDollar += portfolioObject.CoinValue * value;
+        //totalDollar += portfolioObject.CoinValue * value;  // how did this ever work
 
         totalDollar += portfolioObject.DollarValueINT;
+
+        totalBTC += portfolioObject.DollarValueINT / value;
 
         console.log("RETURNING PORTOFOLIO OBJECT OF: ", portfolioObject);
 
@@ -515,13 +521,8 @@ async function renderPortfolio(req, res) {
     //totalDollar = userPortfolioArray.map(item => parseInt(item.DollarValue)).reduce((prev, next) => prev + next);
 
 
+    var datenow = moment().format("ddd DD-MM-YY, HH:mm:ss");
 
-
-    //var datenow = moment().toDate();
-
-    var datenow = moment();
-
-    // var datenow = moment().format("ddd DD-MM-YY, HH:MM:SS");
 
     console.log("ABOUT TO RENDER WITH DATE: ", datenow);
 
@@ -547,48 +548,55 @@ function sum(numbers) {
 
 
 // create a user capture
-exports.Create = function (req, res) {
+exports.Create = async function (req, res) {
 
-    // get users currency setting
-    var userSettingsQuery = UserSettingsModel.findOne({
-        'user.id': req.user._id
-    });
+    // get the users currency setting
+    console.log("ABOUT TO GET USER SETTINGS");
+    // get the users settings
 
-    var userCurrency = userSettingsQuery.exec(function (err, userSettingsObject) {
-        if (err) return handleError(err);
+    const userresult = await UserSettings.findUserSettings(req.user._id, function (userSettingsObject) {
 
-        userCurrency = userSettingsObject.settings.currency;
+        console.log("FOUND USER SETTINGS OF ", userSettingsObject);
 
-        // create userportfolio object
-        console.log("portofolio array is now ", userPortfolioArray);
+        console.log("ABOUT TO GET USER CURRENCY");
 
-        console.log("CaptureName is now", req.body.capturename);
-        // save to database
+        // get the users currency setting
+        userCurrency = UserSettings.findUserCurrency(userSettingsObject);
 
-        var newCapture = new UserCapture();
+        console.log("FOUND USER CURRENCY OF ", userCurrency);
 
-        newCapture.user.id = req.user._id;
-        newCapture.details.name = req.body.capturename;
-        newCapture.details.date = new Date();
-        newCapture.details.totaldollar = totalDollar;
-        newCapture.details.totalBTC = totalBTC;
-        newCapture.details.BTCPrice = BTCPrice;
-        newCapture.details.portfolio = userPortfolioArray;
-        newCapture.details.userCurrency = userCurrency
-
-
-
-        newCapture.save(function (err) {
-            if (err)
-                throw err;
-            // return done(null, newUserKey);
-            console.log("user portfolio saved to DB :", newCapture);
-
-            req.flash('info', 'Captured portfolio successfuly')
-            res.redirect('/view');
-
-        });
     })
+
+    // create userportfolio object
+    console.log("portofolio array is now ", userPortfolioArray);
+
+    console.log("CaptureName is now", req.body.capturename);
+    // save to database
+
+    var newCapture = new UserCapture();
+
+    newCapture.user.id = req.user._id;
+    newCapture.details.name = req.body.capturename;
+    newCapture.details.date = new Date();
+    newCapture.details.totaldollar = totalDollar;
+    newCapture.details.totalBTC = totalBTC;
+    newCapture.details.BTCPrice = BTCPrice;
+    newCapture.details.portfolio = userPortfolioArray;
+    newCapture.details.userCurrency = userCurrency
+
+
+
+    newCapture.save(function (err) {
+        if (err)
+            throw err;
+        // return done(null, newUserKey);
+        console.log("user portfolio saved to DB :", newCapture);
+
+        req.flash('info', 'Captured portfolio successfuly')
+        res.redirect('/view');
+
+    });
+    //})
 };
 
 
@@ -1159,7 +1167,7 @@ exports.autoCapturePortfolio = function () {
             })
 
             // execute the query then pass the results to be processed
-            userKeyQuery.exec(function (err, userKeysArray) {
+             userKeyQuery.exec(function (err, userKeysArray) {
                 //  let userKeysArray = UserKeys.FindUserKeys(function(currentuserID) {;
                 if (err) return handleError(err);
                 console.log("found userKeysArray is now ", userKeysArray);
@@ -1169,9 +1177,15 @@ exports.autoCapturePortfolio = function () {
                     if (err) return handleError(err);
                     console.log("found current user coins array is now ", userCoinsArray);
 
-                    const processcoins = processUserCoins(userCoinsArray);
+                    //const processcoins = processUserCoins(userCoinsArray);
+
+                    processcoins = processUserCoins(userCoinsArray, function (userPortfolioArray) {
 
                     keysarraycount = userKeysArray.length;
+
+                    if (keysarraycount == 0) {
+                        //renderPortfolio(req, res);
+                    } else {
 
                     async.each(userKeysArray, function (userKeyObject) {
 
@@ -1198,7 +1212,14 @@ exports.autoCapturePortfolio = function () {
 
                         sequentialStart(); */
 
-                    })
+                                // execute the query then pass the results to be processed and rendered
+    
+
+                   })
+                }
+
+                })
+            
 
                 })
 
