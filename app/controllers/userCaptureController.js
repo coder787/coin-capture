@@ -38,8 +38,6 @@ function resetGlobals() {
 
 exports.Portfolio = async function (req, res) {
 
-async function Portfolio(req, res) {
-
     console.log("STARTING PORTFOLIO FUNCTION");
 
     // check if user logged in
@@ -63,7 +61,7 @@ async function Portfolio(req, res) {
             console.log("ABOUT TO GET USER CURRENCY");
 
             // get the users currency setting
-            userCurrency = await UserSettings.findUserCurrency(userSettingsObject);
+            userCurrency = UserSettings.findUserCurrency(userSettingsObject);
 
             console.log("FOUND USER CURRENCY OF ", userCurrency);
 
@@ -76,7 +74,7 @@ async function Portfolio(req, res) {
 
         console.log("FINDING USER KEYS");
 
-        userKeysArray = UserKeys.FindUserKeys(req.user._id, function(userKeysArray) {
+        userKeysArray = UserKeys.FindUserKeys(req.user._id, function (userKeysArray) {
 
             console.log("USER KEYS FOUND ARE: ", userKeysArray);
 
@@ -109,34 +107,36 @@ async function Portfolio(req, res) {
 
                 console.log("ABOUT TO CALL PROCESS COINS ", userCoinsArray);
 
-                // const processcoins = processUserCoins(userCoinsArray);
 
-                //processcoins = processUserCoins(userCoinsArray, function(userPortfolioArray) {
+                processcoins = processUserCoins(userCoinsArray, function (userPortfolioArray) {
 
-                async.each(userCoinsArray, processUserCoins, function (userCoinObject) {
 
-                    processcoins = processUserCoins(userCoinsArray, function (userPortfolioArray) {
+                    console.log("FINISHED PROCESS COINS ", userCoinsArray);
 
-                    })
+                    keysarraycount = userKeysArray.length;
 
-                })
-                console.log("FINISHED PROCESS COINS ", userCoinsArray);
+                    console.log("USER KEYS LENGTH IS: ", keysarraycount);
 
-                keysarraycount = userKeysArray.length;
-
-                console.log("USER KEYS LENGTH IS: ", keysarraycount);
-
-                async.each(userKeysArray, function (userKeyObject) {
-
-                    currentExchange = userKeyObject.details.exchange;
-
-                    console.log("passing to process user keys exchange: ", currentExchange);
-
-                    keysresult = processUserKeys(userKeyObject, currentExchange, function (userPortfolioArray) {
-
+                    if (keysarraycount == 0) {
                         renderPortfolio(req, res);
-                        console.log("user portfolio now: ", userPortfolioArray);
-                    })
+                    } else {
+
+                        async.each(userKeysArray, function (userKeyObject) {
+
+                            currentExchange = userKeyObject.details.exchange;
+
+                            console.log("passing to process user keys exchange: ", currentExchange);
+
+                            keysresult = processUserKeys(userKeyObject, currentExchange, function (userPortfolioArray) {
+
+                                renderPortfolio(req, res);
+                                console.log("user portfolio now: ", userPortfolioArray);
+
+                            })
+
+                        })
+
+                    }
 
                 })
 
@@ -144,9 +144,7 @@ async function Portfolio(req, res) {
 
         })
     }
-
 };
-
 
 async function processUserKeys(userKeyObject, currentExchange, callback) {
 
@@ -437,9 +435,13 @@ async function processUserCoinObject(CoinObject, callback) {
 
         portfolioObject.DollarValue = formattedUSDValue;
 
-        console.log("TOTAL DOLLAR ADDING " + portfolioObject.CoinValue + " value ");
+        console.log("TOTAL DOLLAR ADDING COIN VALUE: " + portfolioObject.CoinValue + " TIMES: " + value);
 
-        totalDollar += portfolioObject.CoinValue * value;
+        //totalDollar += portfolioObject.CoinValue * value;
+
+        totalDollar += portfolioObject.DollarValueINT;
+
+        console.log("RETURNING PORTOFOLIO OBJECT OF: ", portfolioObject);
 
         callback(portfolioObject);
 
@@ -458,24 +460,33 @@ async function processUserCoins(userCoinsArray, callback) {
     CoinArray = userCoinsArray[0].coins
     console.log("GOT COIN ARRAY OF ", CoinArray);
 
+    for (const element of CoinArray) {
 
-    CoinArray.forEach(function (element) {
+        //CoinArray.forEach(function(element) {
 
-        portfolioObject = {}
+        result = await ProcessCoin(element, callback);
 
-        portfolioObject = processUserCoinObject(element, function (portfolioObject) {
+    }
 
-            console.log("PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO: ", portfolioObject);
 
-            userPortfolioArray.push(portfolioObject);
-
-        });
-
-    })
-
-    console.log("RETURNING COIN PORTFOLIO ARRAY OF:" , userPortfolioArray);
+    console.log("RETURNING COIN PORTFOLIO ARRAY OF:", userPortfolioArray);
 
     callback(userPortfolioArray);
+
+}
+
+async function ProcessCoin(Coin) {
+
+    portfolioObject = {}
+
+    console.log("PROCESSING COIN OBJECT: ", Coin);
+
+    portfolioObject = await processUserCoinObject(Coin, function (portfolioObject) {
+
+        console.log("PUSHING PORTFOLIO OBJECT TO USER PORTFOLIO: ", portfolioObject);
+
+        userPortfolioArray.push(portfolioObject);
+    })
 }
 
 
