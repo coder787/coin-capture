@@ -5,9 +5,9 @@ const ccxt = require('ccxt');
 
 
 // given a user ID return the user settings object
-exports.findUserSettings = function (userID, callback) {
+exports.findUserSettings = async function (userID, callback) {
 
-    console.log("IN FUNCTION LOOKING FOR USER ID ", userID);
+    console.log("FINDING USER SETTINGS FOR USER: ", userID);
     // build query to find user keys array
     var userSettingsQuery = UserSettings.findOne({
         'user.id' : userID
@@ -16,11 +16,28 @@ exports.findUserSettings = function (userID, callback) {
     // exec the query and return the result as callback
     var userCurrency = userSettingsQuery.exec(function (err, userSettingsObject) {
         if (err) return handleError(err);
-        console.log("RETURNING ", userSettingsObject);
+        console.log("RETURNING USER SETTINGS OBJECT OF ", userSettingsObject);
         callback(userSettingsObject);
     });
 };
 
+// given a user settings object returns the users currency
+exports.findUserCurrency = function (userSettingsObject) {
+
+    console.log("IN FUNCTION FINDING USER CURRENCY");
+
+    if (userSettingsObject == null) {
+
+        console.log("RETURNING DEFAULT CURRENCY OF USD");
+        return 'USD'; // hack: in case settings record doesnt exist use default of USD
+    } 
+    else {
+
+        console.log("RETURNING USER CURRENCY OF: ", userSettingsObject.settings.currency);
+
+        return userSettingsObject.settings.currency;
+    }
+}
 
 // create setting
 exports.Create = function (req, res) {

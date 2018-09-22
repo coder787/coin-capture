@@ -116,43 +116,43 @@ exports.Process = function (req, res) {
                 // user coins object to push into array
                 newuserCoinsObject = {};
 
-                var datenow = moment();
+                var datenow = moment().format("ddd DD-MM-YY, HH:mm:ss");
 
                 newuserCoinsObject.exchange = req.body.exchange;
                 newuserCoinsObject.coinsymbol = req.body.coinsymbol;
                 newuserCoinsObject.quantity = req.body.quantity;
-                newuserCoinsObject.dateadded = datenow; // not working TO-DO fix format
+                newuserCoinsObject.dateadded = datenow;
 
                 // find current price of coin based on exchange and coin
 
-                let coinpriceObject = req.body.exchange.fetchTicker(req.body.coinsymbol + '/BTC');
+                getCoinPrice(req.body.exchange, req.body.coinsymbol, function (CoinAskPrice) {
 
-                console.log("coinpriceobject returned is now ", coinpriceObject);
+                    console.log("using coin price ask of ", CoinAskPrice);
 
-                console.log("using coin price ask of ", coinpriceObject.ask);
+                    newuserCoinsObject.price = CoinAskPrice;
 
-                newuserCoinsObject.price = coinpriceObject.ask;
-
-                userCoinsArray.push(newuserCoinsObject);
+                    userCoinsArray.push(newuserCoinsObject);
 
 
-                console.log("user coins array is now ", userCoinsArray);
+                    console.log("user coins array is now ", userCoinsArray);
 
-                // put the array in the model ready for saving
-                newUserCoin.coins = userCoinsArray;
+                    // put the array in the model ready for saving
+                    newUserCoin.coins = userCoinsArray;
 
-                console.log("newUserCoin before saving is ", newUserCoin);
+                    console.log("newUserCoin before saving is ", newUserCoin);
 
-                newUserCoin.save(function (err) {
+                    newUserCoin.save(function (err) {
 
-                    if (err) throw err
+                        if (err) throw err
 
-                    console.log("saved user coin to DB :", newUserCoin);
+                        console.log("saved user coin to DB :", newUserCoin);
+
+                    })
+
+                    req.flash('info', 'Coin saved successfully');
+                    res.redirect('/manual');
 
                 })
-
-                req.flash('info', 'Coin saved successfully');
-                res.redirect('/manual');
 
             } else {
                 // update user coin array
@@ -161,31 +161,20 @@ exports.Process = function (req, res) {
                 // build new object to add
                 newuserCoinsObject = {};
 
-                var datenow = moment();
+                var datenow = moment().format("ddd DD-MM-YY, HH:MM:SS");
 
                 newuserCoinsObject.exchange = req.body.exchange;
                 newuserCoinsObject.coinsymbol = req.body.coinsymbol;
                 newuserCoinsObject.quantity = req.body.quantity;
                 newuserCoinsObject.dateadded = datenow;
 
-                (async function () {
+                // find current price of coin based on exchange and coin
 
-                    exchangeforTicker = req.body.exchange;
+                getCoinPrice(req.body.exchange, req.body.coinsymbol, function (CoinAskPrice) {
 
-                    let exchange = new ccxt[exchangeforTicker]();
+                    console.log("using coin price ask of ", CoinAskPrice);
 
-                    // console.log("exchange for ticker is now ", exchange);
-
-                    let coinpriceObject = await exchange.fetchTicker(req.body.coinsymbol + '/BTC');
-
-                    console.log("coinpriceobject returned is now ", coinpriceObject);
-
-                    console.log("using coin price ask of ", coinpriceObject.ask);
-
-                    newuserCoinsObject.price = coinpriceObject.ask;
-
-
-
+                    newuserCoinsObject.price = CoinAskPrice;
 
                     // get existing user coins
                     existingUserCoinsArray = userCoinsObject.coins;
@@ -209,13 +198,29 @@ exports.Process = function (req, res) {
 
                     })
 
-                })();
+                })
 
             }
-
-
         });
     }
+}
+
+// given an exchange and coinsymbol returns the asking price of the coin.
+
+async function getCoinPrice(exchangeforTicker, coinsymbol, callback) {
+
+    let exchange = new ccxt[exchangeforTicker]();
+
+    // console.log("exchange for ticker is now ", exchange);
+
+    let coinpriceObject = await exchange.fetchTicker(coinsymbol + '/BTC');
+
+    console.log("coinpriceobject returned is now ", coinpriceObject);
+
+    console.log("using coin price ask of ", coinpriceObject.ask);
+
+    callback(coinpriceObject.ask);
+
 }
 
 
