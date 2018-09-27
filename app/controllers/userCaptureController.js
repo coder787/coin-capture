@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var UserCapture = require('../models/userCapture');
 var UserKey = require('../models/userKey'); // for now do this but bad
 var UserCoin = require('../models/userCoins');
-var UserSettingsModel = require('../models/usersettings'); // for now do this but bad
+var UserSettingsModel = require('../models/userSettings'); // for now do this but bad
 
 var UserKeys = require("../controllers/userKeyController.js");
 var UserSettings = require("../controllers/userSettingsController.js");
@@ -466,6 +466,7 @@ async function processUserCoins(userCoinsArray, callback) {
     CoinArray = userCoinsArray[0].coins
     console.log("GOT COIN ARRAY OF ", CoinArray);
 
+    // use modern for loop instead of forEach so can use await
     for (const element of CoinArray) {
 
         //CoinArray.forEach(function(element) {
@@ -1126,7 +1127,7 @@ exports.Delete = function (req, res) {
 }
 
 
-exports.autoCapturePortfolio = function () {
+exports.autoCapturePortfolio = async function () {
 
     userPortfolioArray = [];
     totalDollar = 0;
@@ -1134,6 +1135,34 @@ exports.autoCapturePortfolio = function () {
     BTCPrice = 0;
 
     console.log("this is where I auto capture");
+
+    result = await FindAutoCaptureUsers(function (userSettingsAutoArray) {
+
+        console.log("user array with settings auto = yes are: ", userSettingsAutoArray);
+
+        AutoCaptureRun(userSettingsAutoArray);
+
+    })
+
+
+}
+
+async function AutoCaptureRun(userSettingsAutoArray) {
+
+    // use modern for loop instead of forEach so can use await
+    for (const element of userSettingsAutoArray) {
+
+        console.log("CALLING AUTO CAP USER WITH ELEMENT: ", element);
+
+        let result = await AutoCaptureUser(element);
+
+        console.log("result: ", result);
+
+    }
+
+}
+
+async function FindAutoCaptureUsers(callback) {
 
     // find users where auto-capture = yes
     var userSettingsAutoQuery = UserSettingsModel.find({
@@ -1143,92 +1172,84 @@ exports.autoCapturePortfolio = function () {
     userSettingsAutoQuery.exec(function (err, userSettingsAutoArray) {
 
         if (err) return handleError(err);
-        console.log("user array with settings auto = yes are: ", userSettingsAutoArray);
 
-        // find users to capture now based on their auto capture settings
+        callback(userSettingsAutoArray);
 
-        // userSettingsAutoArrayCaptureNow = FindUsersToCapture(userSettingsAutoArray);  // not working
-        console.log("USER settings auto array is now ", userSettingsAutoArray);
+    })
+}
 
-        // for each user capture the portfolio
-        userSettingsAutoArray.forEach(function (element) {
 
-            currentuserID = element.user.id;
-            userCurrency = element.settings.currency;
+// input a user settings object and auto captures that user
+function AutoCaptureUser(element) {
+    return new Promise(resolve => {
+        currentuserID = element.user.id;
+        userCurrency = element.settings.currency;
 
-            console.log("finding keys and coins for current user: ", currentuserID);
+        console.log("finding keys and coins for current user: ", currentuserID);
 
-            var userKeyQuery = UserKey.find({
-                'user.id': currentuserID
-            });
+        var userKeyQuery = UserKey.find({
+            'user.id': currentuserID
+        });
 
-            var userCoinQuery = UserCoin.find({
-                'user.id': currentuserID
-            })
+        var userCoinQuery = UserCoin.find({
+            'user.id': currentuserID
+        })
 
-            // execute the query then pass the results to be processed
-             userKeyQuery.exec(function (err, userKeysArray) {
-                //  let userKeysArray = UserKeys.FindUserKeys(function(currentuserID) {;
+        // execute the query then pass the results to be processed
+        userKeyQuery.exec(function (err, userKeysArray) {
+            //  let userKeysArray = UserKeys.FindUserKeys(function(currentuserID) {;
+            if (err) return handleError(err);
+            console.log("found userKeysArray is now ", userKeysArray);
+
+            userCoinQuery.exec(function (err, userCoinsArray) {
+
                 if (err) return handleError(err);
-                console.log("found userKeysArray is now ", userKeysArray);
+                console.log("found current user coins array is now ", userCoinsArray);
 
-                userCoinQuery.exec(function (err, userCoinsArray) {
+                // check if keys and coins exist
+                keysarraycount = userKeysArray.length;
+                coinsarraycount = userCoinsArray[0].coins.length;
 
-                    if (err) return handleError(err);
-                    console.log("found current user coins array is now ", userCoinsArray);
-
-                    //const processcoins = processUserCoins(userCoinsArray);
+                // if no keys or coins no need to capture
+                if (coinsarraycount == 0 && keysarraycount == 0) {
+                    console.log("No Coins or Keys for user: ", currentuserID);
+                    resolve('resolved');
+                } else {
 
                     processcoins = processUserCoins(userCoinsArray, function (userPortfolioArray) {
 
-                    keysarraycount = userKeysArray.length;
 
-                    if (keysarraycount == 0) {
-                        //renderPortfolio(req, res);
-                    } else {
 
-                    async.each(userKeysArray, function (userKeyObject) {
-
-                        currentExchange = userKeyObject.details.exchange;
-
-                        console.log("passing to process user keys exchange: ", currentExchange);
-
-                        keysresult = processUserKeys(userKeyObject, currentExchange, function (userPortfolioArray) {
-
-                            console.log("finished processing user keys about to capture");
+                        if (keysarraycount == 0) {
                             createAutoCapture(currentuserID, userCurrency);
-                        })
+                            resolve('resolved');
+                        } else {
 
+                            async.each(userKeysArray, function (userKeyObject) {
 
-                        /* var sequentialStart = async function () {
-                            console.log('==SEQUENTIAL START==');
-                            console.log("starting process user coins");
-                            const coinsarray = await processUserCoins(userCoinsArray);
-                            console.log("starting process user keys");
-                            const keysarray = await processUserKeys(userKeysArray);
-                            console.log("starting save to DB");
-                            const render = await createAutoCapture(currentuserID, userCurrency);
+                                currentExchange = userKeyObject.details.exchange;
+
+                                console.log("passing to process user keys exchange: ", currentExchange);
+
+                                keysresult = processUserKeys(userKeyObject, currentExchange, function (userPortfolioArray) {
+
+                                    console.log("finished processing user keys about to capture");
+                                    createAutoCapture(currentuserID, userCurrency);
+                                    resolve('resolved');
+                                })
+
+                            })
                         }
 
-                        sequentialStart(); */
 
-                                // execute the query then pass the results to be processed and rendered
-    
-
-                   })
+                    })
                 }
-
-                })
-            
-
-                })
-
 
             })
 
-        })
-    })
 
+        })
+    });
 }
 
 async function createAutoCapture(currentuserID, userCurrency) {

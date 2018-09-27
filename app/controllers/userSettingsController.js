@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var UserSettings = require('../models/usersettings');
+var UserSettings = require('../models/userSettings');
 const ccxt = require('ccxt');
 
 

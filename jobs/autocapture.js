@@ -8,7 +8,7 @@ module.exports = function (cron) {
 
   //  cronTime : '* */10 * * * *',  // The time pattern when you want the job to start
   cronTime : '00 */30 * * * *', // at 30 min of hour and on the hour
- // cronTime : '00 05 23 * * 0-7',
+ // cronTime : '00 12 13 * * 0-7',
     onTick : userCapture.autoCapturePortfolio, // Task to run
    // onComplete : resetNumber, // When job is completed and It stops.
     start : true, // immediately starts the job.

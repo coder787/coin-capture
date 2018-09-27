@@ -1,4 +1,5 @@
 {
+  "scripts" : { "start" : "node server.js" },
   "name": "node-authentication",
   "main": "server.js",
   "dependencies": {
