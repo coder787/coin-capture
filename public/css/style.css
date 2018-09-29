@@ -26,9 +26,10 @@
     color: white;
 }
 
+/* dont like this for usability reasons, remove
 .navbar-nav li:hover .dropdown-menu {
     display: block;
-}
+} */
 
 .exchanges-list { 
     width:100%;
