@@ -1223,7 +1223,8 @@ function AutoCaptureUser(element) {
 
                 // check if keys and coins exist
                 keysarraycount = userKeysArray.length;
-                coinsarraycount = userCoinsArray[0].coins.length;
+                //coinsarraycount = userCoinsArray[0].coins.length;
+                coinsarraycount = userCoinsArray.length;
 
                 // if no keys or coins no need to capture
                 if (coinsarraycount == 0 && keysarraycount == 0) {

@@ -11,6 +11,21 @@
     
 }
 
+/* change the brand and text color */
+.navbar .navbar-brand,
+.navbar .navbar-text {
+    color: white;
+}
+/* change the link color */
+.navbar-nav .nav-item .nav-link {
+    color: lightgray;
+}
+/* change the color of active or hovered links */
+.navbar-nav .nav-item.active .nav-link,
+.navbar-nav .nav-item:hover .nav-link {
+    color: white;
+}
+
 .exchanges-list { 
     width:100%;
     align-items:center;
