@@ -115,7 +115,7 @@ exports.Portfolio = async function (req, res) {
 
                 console.log("keys count now: " + keysarraycount + " coins count: " + coinsarraycount);
 
-                // if no keys or coins no need to capture
+                // if no keys or coins no need to process
                 if (coinsarraycount == 0 && keysarraycount == 0) {
                     console.log("No Coins or Keys for user: ", req.user._id);
                     renderPortfolio(req, res);
