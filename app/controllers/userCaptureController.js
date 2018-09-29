@@ -109,6 +109,18 @@ exports.Portfolio = async function (req, res) {
 
                 console.log("ABOUT TO CALL PROCESS COINS ", userCoinsArray);
 
+                // check if keys and coins exist
+                keysarraycount = userKeysArray.length;
+                coinsarraycount = userCoinsArray.length;
+
+                console.log("keys count now: " + keysarraycount + " coins count: " + coinsarraycount);
+
+                // if no keys or coins no need to capture
+                if (coinsarraycount == 0 && keysarraycount == 0) {
+                    console.log("No Coins or Keys for user: ", req.user._id);
+                    renderPortfolio(req, res);
+                } else {
+
 
                 processcoins = processUserCoins(userCoinsArray, function (userPortfolioArray) {
 
@@ -133,6 +145,7 @@ exports.Portfolio = async function (req, res) {
 
                                 renderPortfolio(req, res);
                                 console.log("user portfolio now: ", userPortfolioArray);
+                                
 
                             })
 
@@ -140,7 +153,9 @@ exports.Portfolio = async function (req, res) {
 
                     }
 
+             
                 })
+            }
 
             })
 
