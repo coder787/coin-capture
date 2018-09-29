@@ -26,6 +26,10 @@
     color: white;
 }
 
+.navbar-nav li:hover .dropdown-menu {
+    display: block;
+}
+
 .exchanges-list { 
     width:100%;
     align-items:center;
