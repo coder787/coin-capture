@@ -454,7 +454,9 @@ async function processUserCoinObject(CoinObject, callback) {
 
         portfolioObject.DollarValue = formattedUSDValue;
 
-        console.log("TOTAL DOLLAR ADDING COIN VALUE: " + portfolioObject.CoinValue + " TIMES: " + value);
+       // console.log("TOTAL DOLLAR ADDING COIN VALUE: " + portfolioObject.CoinValue + " TIMES: " + value);
+
+        console.log("TOTAL DOLLAR ADDING dollarvalueint of: " + portfolioObject.DollarValueINT + " to total of: " + totalDollar);
 
         //totalDollar += portfolioObject.CoinValue * value;  // how did this ever work
 
@@ -1144,12 +1146,11 @@ exports.Delete = function (req, res) {
 
 exports.autoCapturePortfolio = async function () {
 
-    userPortfolioArray = [];
-    totalDollar = 0;
-    totalBTC = 0;
-    BTCPrice = 0;
+    console.log("RESETTING GLOBALS");
+    resetGlobals();
 
     console.log("this is where I auto capture");
+    
 
     result = await FindAutoCaptureUsers(function (userSettingsAutoArray) {
 
@@ -1276,7 +1277,7 @@ async function createAutoCapture(currentuserID, userCurrency) {
 
     // format the dollars and btc amounts, done before render also, but no render when auto saving
 
-
+    
     totalDollar = currencyFormatter.format(totalDollar, {
         code: userCurrency,
     });
@@ -1310,6 +1311,9 @@ async function createAutoCapture(currentuserID, userCurrency) {
             throw err;
         // return done(null, newUserKey);
         console.log("user capture auto saved to DB :", newCapture);
+
+        console.log("RESET GLOBALS AFTER CAPTURE SAVE");
+        resetGlobals();
     })
 }
 
