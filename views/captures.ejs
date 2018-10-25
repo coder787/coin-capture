@@ -58,6 +58,7 @@
                   <th>Available</th>
                   <th>
                     <%= selectedCaptureArray[0]['details']['userCurrency'] %> Value</th>
+                    <th>Percentage</th>
                 </tr>
               </thead>
               <tbody>
@@ -82,6 +83,9 @@
                     </td> -->
                     <td>
                       <%= element['DollarValue'] %>
+                    </td>
+                    <td>
+                      <%= element['portfolioPercentage'] %>
                     </td>
                 </tr>
                 <% }); %>

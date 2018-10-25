@@ -108,6 +108,7 @@
               <!-- <th>BTC Coin Value</th> -->
               <th>
                 <%= userCurrency %> Value</th>
+                <th>Percentage</th>
             </tr>
           </thead>
           <tbody>
@@ -134,6 +135,9 @@
                 </td> -->
               <td>
                 <%= userPortfolioArray.DollarValue %>
+              </td>
+              <td>
+                <%= userPortfolioArray.portfolioPercentage %>
               </td>
             </tr>
             <% }); %>

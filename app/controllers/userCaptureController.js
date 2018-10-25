@@ -516,7 +516,13 @@ async function ProcessCoin(Coin) {
 
 async function renderPortfolio(req, res) {
 
+    userPortfolioArray.forEach(function(element) {element.portfolioPercentage = parseFloat(100 * element.DollarValueInt / totalDollar).toFixed(2) + "%" });
+
     console.log("in render portfolio with portfolio array: ", userPortfolioArray);
+
+        // add portfolio percentage to array
+
+        
 
     //var currencies = require('currency-formatter/currencies');
 
@@ -537,6 +543,8 @@ async function renderPortfolio(req, res) {
     // calculate total dollar, not working
 
     //totalDollar = userPortfolioArray.map(item => parseInt(item.DollarValue)).reduce((prev, next) => prev + next);
+
+
 
 
     var datenow = moment().format("ddd DD-MM-YY, HH:mm:ss");
@@ -1274,6 +1282,8 @@ async function createAutoCapture(currentuserID, userCurrency) {
     console.log("starting auto capture save!");
 
     console.log("portofolio array is now ", userPortfolioArray);
+
+    userPortfolioArray.forEach(function(element) {element.portfolioPercentage = parseFloat(100 * element.DollarValueInt / totalDollar).toFixed(2) + "%" });
 
     // format the dollars and btc amounts, done before render also, but no render when auto saving
 
