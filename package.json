@@ -6,7 +6,7 @@
   "main": "server.js",
   "dependencies": {
     "as-table": "^1.0.33",
-    "async": "^2.6.1",
+    "async": "^2.6.4",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.18.3",
     "bootbox": "^4.4.0",
