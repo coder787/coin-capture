@@ -1,20 +1,31 @@
-// app/models/userKey.js
-// load the things we need
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// define the schema for our user key model
-var userKeySchema = mongoose.Schema({
-
-    user        : {
-        id          : String,
+const userKeySchema = new mongoose.Schema({
+    user: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
     },
-    details     : {
-        exchange    : String,
-        key         : String,
-        secret      : String,
-        added       : String
+    details: {
+        exchange: {
+            type: String,
+            required: true
+        },
+        key: {
+            type: String,
+            required: true
+        },
+        secret: {
+            type: String,
+            required: true
+        },
+        added: {
+            type: Date,
+            default: Date.now
+        }
     }
 });
 
-// create the model for user key and expose it to our app
 module.exports = mongoose.model('UserKey', userKeySchema);

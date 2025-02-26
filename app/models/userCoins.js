@@ -1,15 +1,37 @@
-// app/models/userCoin.js
-// load the things we need
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// define the schema for our user coin model
-var userCoinSchema = mongoose.Schema({
-
-    user        : {
-        id          : String,
+const userCoinSchema = new mongoose.Schema({
+    user: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
     },
-    coins : Object  //an array of user coins
+    coins: [
+        {
+            exchange: {
+                type: String,
+                required: true
+            },
+            coinsymbol: {
+                type: String,
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            },
+            dateadded: {
+                type: String,
+                required: true
+            },
+            price: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
 });
 
-// create the model for user key and expose it to our app
 module.exports = mongoose.model('UserCoin', userCoinSchema);
