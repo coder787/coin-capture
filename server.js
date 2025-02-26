@@ -1,83 +1,66 @@
-// server.js
+const express = require('express');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const flash = require('connect-flash');
+const bodyParser = require('body-parser');
+const path = require('path');
+const app = express();
 
-// set up ======================================================================
-// get all the tools we need
-var express = require('express');
-var app = express();
-var port = process.env.PORT || 8080;
-var mongoose = require('mongoose');
-var passport = require('passport');
-var flash = require('connect-flash');
-let cron = require('cron'); // added for cron job
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+// Load environment variables
+require('dotenv').config();
 
-var UserSettingsModel = require('./app/models/userSettings');
+// Passport configuration
+require('./config/passport')(passport);
 
-require('dotenv').config() // used to load environment variables from .env file
+// Database configuration
+const db = process.env.MONGO_URI;
 
-var configDB = require('./config/database.js');
+// Connect to MongoDB
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
-// configuration ===============================================================
-mongoose.connect(configDB.url, {
-    useMongoClient: true
-}); // connect to our database
-//mongoose.createConnection(configDB.url);
+// EJS setup
+app.set('view engine', 'ejs');
 
-require('./config/passport')(passport); // pass passport for configuration
-
-
-
-// set up our express application
-app.use(morgan('dev')); // log every request to the console
-
-
-let autocaptureJob = require('./jobs/autocapture')(cron);
-
-app.use(cookieParser()); // read cookies (needed for auth)
-//app.use(bodyParser()); // get information from html forms // depreciated
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
+// Bodyparser middleware
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-app.set('view engine', 'ejs'); // set up ejs for templating
-
-// required for passport
-//app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret // depreciated
+// Express session middleware
 app.use(session({
-    secret: 'abc',
+    secret: 'secret',
     resave: true,
     saveUninitialized: true
 }));
+
+// Passport middleware
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(passport.session());
 
-// middleware to pass user to all templates
-app.use(function (req, res, next) {
+// Connect flash
+app.use(flash());
 
-            if (req.user == undefined) {
-                req.user = null;
-            }
-            res.locals.user = req.user;
-            next();
-        });
+// Global variables for flash messages
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
+});
 
+// Static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-        app.use(express.static(__dirname + '/public'));
+// Routes
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
 
-        process.on('unhandledRejection', (reason, p) => {
-            console.log('Unhandled Rejection at:', p, 'reason:', reason);
-            // application specific logging, throwing an error, or other logic here
-        });
+// Port configuration
+const PORT = process.env.PORT || 5000;
 
-        // routes ======================================================================
-        require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-
-        // launch ======================================================================
-        app.listen(port); console.log('The magic happens on port ' + port);
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
