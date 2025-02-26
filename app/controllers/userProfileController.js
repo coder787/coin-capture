@@ -1,57 +1,22 @@
-var UserKey = require('../models/userKey');
-var UserCoin = require('../models/userCoins');
+const UserKey = require('../models/userKey');
+const UserCoin = require('../models/userCoins');
 
+async function fetchUserKeys(userID) {
+    return UserKey.find({ 'user.id': userID }).exec();
+}
 
-// find a user key
-exports.Show= function (req, res) {
+async function fetchUserCoins(userID) {
+    return UserCoin.findOne({ 'user.id': userID }).exec();
+}
 
-    console.log("LOOKING FOR", req.user._id);
+exports.Show = async function (req, res) {
+    const userKeysArray = await fetchUserKeys(req.user._id);
+    const userCoinsObject = await fetchUserCoins(req.user._id);
+    const userCoinsArray = userCoinsObject ? userCoinsObject.coins : [];
 
-    // build query to find user keys array
-    var userKeyQuery = UserKey.find({
-        'user.id': req.user._id
+    res.render('profile.ejs', {
+        user: req.user,
+        userKeysArray,
+        userCoinsArray
     });
-
-    // execute the query
-    userKeyQuery.exec(function (err, userKeysArray) {
-
-        if (err) return handleError(err);
-
-        // build query to find user coins array
-
-        var userCoinQuery = UserCoin.find({
-            'user.id': req.user._id
-        })
-
-        // execute the query
-
-        userCoinQuery.exec(function (err, userCoinsArray) {
-
-            if (err) return handleError(err);
-
-        console.log("FOUND userKeysArray of", userKeysArray);
-        console.log("FOUND userCoinsArray of", userCoinsArray);
-          
-          console.log('user coins array length is now ', userCoinsArray.length);
-          
-          if (userCoinsArray.length > 0) {
-
-        console.log("user coins length are  now", userCoinsArray[0]['coins'].length);
-
-
-        res.render('profile.ejs', {
-            user: req.user, // get the user out of session and pass to template
-            userKeysArray: userKeysArray,
-            userCoinsArray: userCoinsArray[0].coins
-        });
-          } else {
-            res.render('profile.ejs', {
-            user: req.user, // get the user out of session and pass to template
-            userKeysArray: userKeysArray,
-            userCoinsArray: userCoinsArray
-        });
-          }
-
-    })
-})
 };
