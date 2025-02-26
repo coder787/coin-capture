@@ -1,86 +1,30 @@
-<!-- views/settings.ejs -->
-<!doctype html>
-<html>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
-<head>
-    <%- include('partials/header.ejs'); %>
-</head>
-
-<body onload="addItems(); setCurrency();">
-
-    <%- include('partials/navbar.ejs', {active: "Settings"}); %>
-    <div class="content">
-
-
-
-        <div class="container">
-
-            <h1>
-                <span class="fa fa-cog"></span> Settings</h1>
-
-
-            <!-- show success message -->
-            <% if (message.length > 0) { %>
-                <div class="alert alert-success">
-                    <%= message %>
-                </div>
-                <% } %>
-
-                    <form action="/addsettings" method="post">
-                        <div class="form-group">
-                            <label for="ExchangeSelection">Currency</label>
-                            <select name="currency" class="form-control" id="CurrencySelection">
-                            </select>
-                            <label for="AutoCaptureSelection">Auto Capture</label>
-                            <select name="autocapture" class="form-control" id="AutoCaptureSelection">
-                                    <option value="No" selected="selected">No</option>
-                                    <option value="Yes">Yes</option>
-                          </select> <!--
-                                    <label for="IntervalSelection">Interval</label>
-                                    <select name="interval" class="form-control" id="IntervalSelection">
-                                    <option value="30 mins" selected="selected">30 mins</option>
-                                    <option value="1 hour">1 hour</option>
-                                    <option value="2 hours">2 hours</option>
-                                    <option value="3 hours">3 hours</option>
-                                    <option value="4 hours">4 hours</option>
-                                    <option value="5 hours">5 hours</option>
-                                    <option value="6 hours">6 hours</option>
-                                    <option value="7 hours">7 hours</option>
-                                    <option value="8 hours">8 hours</option>
-                                    <option value="9 hours">9 hours</option>
-                                    <option value="10 hours">10 hours</option>
-                                    <option value="12 hours">12 hours</option>
-                                    </select> -->
-                        </div>
-                        <button type="submit" class="btn btn-warning btn-lg">Save</button>
-
-
-                    </form>
-
-                    <script type="text/javascript">
-                        function addItems() {
-                            
-                            // add currency selection items
-
-                            let currencyList = document.getElementById('CurrencySelection');
-                            <% currencyArray.forEach(function(element) { %>
-                            var option = document.createElement("option");
-                            option.text = '<%= element.code %>';
-                            currencyList.add(option);
-                            <% }); %>
-                        }
-
-                        function setCurrency() {
-                            document.getElementById('CurrencySelection').value = '<%= userCurrency %>';
-                            document.getElementById('AutoCaptureSelection').value = '<%= userAutoCapture %>';
-                        //   document.getElementById('AutoCaptureSelection').value = '<%= userInterval %>'
-                        }
-
-                    </script>
-
-<%- include('partials/script.ejs'); %>
-
+<div class="container">
+    <h1>Settings</h1>
+    <form action="/settings" method="post">
+        <div class="form-group">
+            <label for="currency">Currency</label>
+            <select name="currency" id="currency" class="form-control">
+                <% currencyArray.forEach(function(currency) { %>
+                    <option value="<%= currency.code %>" <%= currency.code === userCurrency ? 'selected' : '' %>><%= currency.code %> (<%= currency.symbol %>)</option>
+                <% }) %>
+            </select>
         </div>
+        <div class="form-group">
+            <label for="autocapture">Auto Capture</label>
+            <select name="autocapture" id="autocapture" class="form-control">
+                <option value="Yes" <%= userAutoCapture === 'Yes' ? 'selected' : '' %>>Yes</option>
+                <option value="No" <%= userAutoCapture === 'No' ? 'selected' : '' %>>No</option>
+            </select>
         </div>
+        <div class="form-group">
+            <label for="interval">Capture Interval</label>
+            <input type="text" name="interval" id="interval" class="form-control" value="<%= userInterval %>" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
 
-</body>
+<%- include('partials/footer') %>

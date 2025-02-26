@@ -1,100 +1,33 @@
-<!-- views/charts.ejs -->
-<!doctype html>
-<html>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
-<head>
-    <%- include('partials/header.ejs'); %>
-</head>
+<div class="container">
+    <h1>Charts</h1>
+    <canvas id="myChart"></canvas>
+</div>
 
-<body>
-
-    <%- include('partials/navbar.ejs', {active: "Please Wait"}); %>
-    <div class="content">
-
-
-
-        <div class="container">
-
-            <h1>
-                <span class="fas fa-chart-line"></span> Charts</h1>
-
-        <div id="linechart"></div>
-                
-        <% if (user != null) { %>
-
-<%- include('partials/script.ejs'); %>
-
-        </div>
-        </div>
-
-        <% if (totalDollarArray) { %>
-
-        <script>
-        
-
-Highcharts.chart('linechart', {
-    chart: {
-        type: 'area'
-    },
-    title: {
-        text: 'Portfolio Value'
-    },
-    subtitle: {
-        text: ''
-    },
-
-    /* xAxis: {
-        allowDecimals: false,
-        labels: {
-            formatter: function () {
-                return this.value; // clean, unformatted number for year
-            }
-        }
-    }, */
-    yAxis: {
-        title: {
-            text: 'Portfolio Value'
+<%- include('partials/script') %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <%= JSON.stringify(labels) %>,
+            datasets: [{
+                label: 'Portfolio Value',
+                data: <%= JSON.stringify(data) %>,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
         },
-        labels: {
-            formatter: function () {
-                return this.value / 1000 + 'k';
-            }
-        }
-    },
-    tooltip: {
-        pointFormat: '{series.name} date <b>{point.y:,.0f}</b><br/>date {point.x}'
-    },
-   /* plotOptions: {
-        area: {
-            pointStart: 2018,
-            marker: {
-                enabled: false,
-                symbol: 'circle',
-                radius: 2,
-                states: {
-                    hover: {
-                        enabled: true
-                    }
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
         }
-    }, */
-    series: [{
-        name: 'Total Value',
-        data: [<%= totalDollarArray %>]}]
-});
-
-
-        
-        </script>
-
-<%  } %>
-
-<% } else { %>
-
-<h5>Login or Signup to view charts
-    <h5>
-
-        <% } %>
-
-</body>
+    });
+</script>
+<%- include('partials/footer') %>

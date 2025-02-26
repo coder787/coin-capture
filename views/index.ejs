@@ -1,66 +1,9 @@
-<!-- views/index.ejs -->
-<!doctype html>
-<html>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
-<head>
-    <%- include('partials/header.ejs'); %>
-    
-</head>
+<div class="container">
+    <h1>Welcome to Coin Capture</h1>
+    <p>Track and manage your cryptocurrency portfolio with ease.</p>
+</div>
 
-<body>
-
-    
-
-        <%- include('partials/navbar.ejs', {active: "Index"}); %>
-        <div class="content">
-
-        <div class="container">
-
-            <div class="jumbotron text-center">
-                <h1>
-                    <!-- <img src=images/CC/logos/CCLogo.png alt=Coin Capture /> -->
-
-                    <h1 class="display-3"><span class="fas fa-closed-captioning"></span><b> Coin Capture</b></h1>
-                    
-                <h5>Capture your cryptocurrency porfolio</h5>
-
-                <% if (user != null) { %>
-                    <p>Logged in as:  <%= user.local.email %></p>
-                    <p><a href="/logout">logout</a><a href="/profile"> | profile</a></p></p>
-                    
-                    <% } else { %>
-                <p>Login or Register with:</p>
-
-                <a href="/login" class="btn btn-default">
-                    <span class="fa fa-user"></span> Local Login</a>
-                <a href="/signup" class="btn btn-default">
-                    <span class="fa fa-user"></span> Local Signup</a>
-                    <% } %>
-            </div>
-
-
-            Works for multiple exchanges</h2> 
-            <div class="exchanges-list"> <div> 
-                <img src=images/exchanges/logos/bittrex.png alt=Bittrex />
-                 <img src=images/exchanges/logos/binance.png alt=Binance /> 
-                 <img src=images/exchanges/logos/gdax.png alt=GDAX />
-                 <img src=images/exchanges/logos/coinbase.png alt=Coinbase />  
-                 <img src=images/exchanges/logos/kraken.png alt=Kraken /> 
-                 <img src=images/exchanges/logos/poloniex.png alt=Poloniex /> 
-                 <img src=images/exchanges/logos/gemini.png alt=Gemini />
-
-        </div>
-
-        <script>
-            var logout = document.getElementById("logout-item");
-
-
-            $("#nav-login").show();
-            $("#nav-loggedin").hide();
-        </script>
-
-    </div>
-
-</body>
-
-</html>
+<%- include('partials/footer') %>

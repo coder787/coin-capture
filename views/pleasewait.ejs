@@ -1,27 +1,9 @@
-<!-- views/pleasewait.ejs -->
-<!doctype html>
-<html>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
-<head>
-    <%- include('partials/header.ejs'); %>
-</head>
+<div class="container">
+    <h1>Please Wait</h1>
+    <p>Processing your request...</p>
+</div>
 
-<body>
-
-    <%- include('partials/navbar.ejs', {active: "Please Wait"}); %>
-    <div class="content">
-
-
-
-        <div class="container">
-
-            <h1>
-                <span class="fa fa-cog"></span> Please wait..</h1>
-
-
-<%- include('partials/script.ejs'); %>
-
-        </div>
-        </div>
-
-</body>
+<%- include('partials/footer') %>

@@ -1,61 +1,23 @@
-<!-- views/deletecaptures.ejs -->
-<!doctype html>
-<html>
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
-<head>
-
-
-    <%- include('partials/header.ejs'); %>
-
-</head>
-
-<body onload="addItems()">
-
-    <%- include('partials/navbar.ejs', {active: "DeleteCaptures"}); %>
-    <div class="content">
-
-        <div class="container">
-
-            <h1>
-                <span class="fas fa-trash-alt"></span> Delete Captures</h1>
-
-                <% if (user != null) { %>
-
-            <!-- show success message -->
-            <% if (message.length > 0) { %>
-                <div class="alert alert-success">
-                    <%= message %>
-                </div>
-                <% } %>
-
-                    <form action="/deletecaptures" method="post" onsubmit="return confirm('Are you sure you wish to delete this capture?');">
-                        <div class="form-group">
-                            <label for="ExchangeSelection">Select Capture to delete :</label>
-                            <select name="capturetodelete" class="form-control" id="CaptureSelection">
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-warning btn-lg">Delete</button>
-                    </form>
-
-                    <script type="text/javascript">
-                        function addItems() {
-                            let captureList = document.getElementById('CaptureSelection');
-                            <% userCaptureArray.forEach(function(element) { %>
-                            var option = document.createElement("option");
-                            option.text = '<%= element.details.name %> [<%= element._id %>]';
-                            captureList.add(option);
-                            <% }); %>
-                        }
-                    </script>
-<%- include('partials/script.ejs'); %>
-                </div>
-
-                <% } else { %>
-  
-                    <h5>Login or Signup to delete captures<h5>
-                    
-                     <% } %> 
-
-</body>
+<div class="container">
+    <h1>Delete Captures</h1>
+    <% if (userCaptureArray.length > 0) { %>
+        <form action="/deletecaptures" method="post">
+            <div class="form-group">
+                <label for="captureToDelete">Select Capture to Delete</label>
+                <select name="captureToDelete" id="captureToDelete" class="form-control">
+                    <% userCaptureArray.forEach(function(capture) { %>
+                        <option value="<%= capture._id %>"><%= capture.details.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    <% } else { %>
+        <p>No captures available to delete.</p>
+    <% } %>
 </div>
+
+<%- include('partials/footer') %>
