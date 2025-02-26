@@ -1,17 +1,15 @@
 <script>
     $(function () {
-
         <% if (user) { %>
-        $("#nav-login").hide();
-        $('#nav-signup').hide();
-        $("#nav-loggedin").show();
-        $("#right-items").prepend("<li><a class='nav-link active'><b><%= user.local.email %></b></a></li>");
+            $("#nav-login").hide();
+            $('#nav-signup').hide();
+            $("#nav-loggedin").show();
+            $("#right-items").prepend("<li><a class='nav-link active'><b><%= user.local.email %></b></a></li>");
         <% } else { %>
-        $("#nav-login").show();
-        $("#nav-loggedin").hide();
-        $("#nav-logout").hide();
-        $("#right-items").remove("<li><a class='nav-link active'>'<%= user.local.email %>'</a></li>");
-        <%  } %>
-
+            $("#nav-login").show();
+            $("#nav-loggedin").hide();
+            $("#nav-logout").hide();
+            $("#right-items").remove("<li><a class='nav-link active'>'<%= user.local.email %>'</a></li>");
+        <% } %>
     });
 </script>
